@@ -1,0 +1,2589 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>FiftyOne.Foundation</name>
+    </assembly>
+    <members>
+        <member name="T:FiftyOne.Foundation.Mobile.Detection.Wurfl.Processor">
+            <summary>
+            Constains all methods needed to process the WURFL xml file.
+            </summary>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.Processor.GetXmlReaderSettings">
+            <summary>
+            Returns XML settings that allows the wurfl.xml files to be processed without errors.
+            </summary>
+            <returns>XMLReaderSettings appropriate for wurfl.xml files</returns>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.Processor.ParseWurflFiles(FiftyOne.Foundation.Mobile.Detection.Wurfl.Provider,System.Collections.Specialized.StringCollection,System.DateTime)">
+            <summary>
+            Parses the Wurfl files and updates the devices object with data found.
+            </summary>
+            <param name="wurflFilePaths">Paths of the Wurfl xml and patch files.</param>
+            <param name="devices">Collection of mobile devices.</param>
+            <param name="masterFileDate">If a device has a creation date element only include it in the
+            device database if it was created after the master file's date and time.</param>
+            <remarks>If no files are found devices will remain unchanged.</remarks>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.Processor.LoadDevice(FiftyOne.Foundation.Mobile.Detection.Wurfl.Provider,System.Xml.XmlReader)">
+            <summary>
+            Processes the XML element containing the device attributes.
+            </summary>
+            <param name="devices">A list of loaded devices.</param>
+            <param name="reader">The XML stream readers.</param>
+            <returns>An empty device.</returns>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.Processor.GetReader(System.IO.FileInfo)">
+            <summary>
+            Opens the Xml reader after first checking if the file is compressed.
+            </summary>
+            <param name="file">Information about the file to be opened.</param>
+            <returns>An open XmlReader.</returns>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.Processor.ParseWurflFiles(FiftyOne.Foundation.Mobile.Detection.Wurfl.Provider,System.String,System.String[])">
+            <summary>
+            Parses the wurfl file into a instance of Devices.
+            </summary>
+            <param name="devices">Instance of Devices to store data.</param>
+            <param name="wurflFilePath">Wurfl file path.</param>
+            <param name="wurflPatchFiles">Null, string or array of strings representing the wurfl patch files
+            which must be applied against the main file.</param>
+            <returns>Returns an instance of Devices. 
+            <remarks>If none file is found a null value will be returned.</remarks>
+            </returns>
+            <exception cref="T:System.IO.FileNotFoundException">Thrown if the parameter <paramref name="wurflFilePath"/> 
+            referes to a file that does not exists.</exception>
+            <exception cref="T:System.ArgumentNullException">Thrown if the parameter <paramref name="wurflFilePath"/> 
+            is an empty string or a null value.</exception>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.Processor.ParseWurflFiles(FiftyOne.Foundation.Mobile.Detection.Wurfl.Provider,System.String,System.Collections.Specialized.StringCollection,System.String[])">
+            <summary>
+            Parses the wurfl file into a instance of WurflFile.
+            </summary>
+            <param name="devices">Instance of Devices to store data.</param>
+            <param name="wurflFilePath">Wurfl file path.</param>
+            <param name="capabilitiesWhiteList">List of capabilities to be used. If none, all capabilities will be loaded into the memory.</param>
+            <param name="wurflPatchFiles">Null, string or array of strings representing the wurfl patch files
+            which must be applied against the main file.</param>
+            <returns>Returns an instance of WurflFile. 
+            <remarks>If none file is found a null value will be returned.</remarks>
+            </returns>
+            <exception cref="T:System.IO.FileNotFoundException">Thrown if the parameter <paramref name="wurflFilePath"/> 
+            referes to a file that does not exists.</exception>
+            <exception cref="T:System.ArgumentNullException">Thrown if the parameter <paramref name="wurflFilePath"/> 
+            is an empty string or a null value.</exception>
+        </member>
+        <member name="F:FiftyOne.Foundation.Mobile.Detection.Wurfl.Handlers.Handler.DEFAULT_CONFIDENCE">
+            <summary>
+            The default confidence to assign to results from the handler.
+            </summary>
+        </member>
+        <member name="F:FiftyOne.Foundation.Mobile.Detection.Wurfl.Handlers.Handler.UAPROF_CAPABILITIES">
+            <summary>
+            WURFL uaprof capabilities to check.
+            </summary>
+        </member>
+        <member name="F:FiftyOne.Foundation.Mobile.Detection.Wurfl.Handlers.Handler.UAPROF_HEADERS">
+            <summary>
+            HTTP headers containing uaprof urls.
+            </summary>
+        </member>
+        <member name="F:FiftyOne.Foundation.Mobile.Detection.Wurfl.Handlers.Handler._uaProfDomains">
+            <summary>
+            A collection of domain names used with uaprof urls.
+            </summary>
+        </member>
+        <member name="F:FiftyOne.Foundation.Mobile.Detection.Wurfl.Handlers.Handler._uaprofs">
+            <summary>
+            A single collection of all uaprof urls used by devices assigned to this handler.
+            </summary>
+        </member>
+        <member name="F:FiftyOne.Foundation.Mobile.Detection.Wurfl.Handlers.Handler._useragents">
+            <summary>
+            A single collection of all useragent strings and devices assigned to this handler.
+            </summary>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.Handlers.Handler.Match(System.String)">
+            <summary>
+            The inheriting classes match method.
+            </summary>
+            <param name="userAgent">The useragent to match.</param>
+            <returns>A result set of matching devices.</returns>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.Handlers.Handler.CanHandle(System.String)">
+            <summary>
+            Returns true or false depending on the handlers ability
+            to match the user agent provided.
+            </summary>
+            <param name="userAgent"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.Handlers.Handler.Set(FiftyOne.Foundation.Mobile.Detection.Wurfl.DeviceInfo)">
+            <summary>
+            Adds a new device to the handler.
+            </summary>
+            <param name="device">device being added to the handler.</param>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.Handlers.Handler.GetDeviceInfo(System.String)">
+            <summary>
+            Returns the device matching the userAgent string if one is available.
+            </summary>
+            <param name="userAgent">userAgent being sought.</param>
+            <returns>null if no device is found. Otherwise the matching device.</returns>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.Handlers.Handler.GetResultsFromUAProf(System.String)">
+            <summary>
+            Returns all the devices that match the UA prof provided.
+            </summary>
+            <param name="uaprof">UA prof to search for.</param>
+            <returns>Results containing all the matching devices.</returns>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.Handlers.Handler.CanHandle(FiftyOne.Foundation.Mobile.Detection.Wurfl.DeviceInfo)">
+            <summary>
+            Returns true if the device roots have been specified and this device is
+            within the branches of the available root devices. 
+            AND
+            The useragent string of the device is supported by the handler.
+            </summary>
+            <param name="device">Device to be checked.</param>
+            <returns>True if supported root devices are provided and the device is found
+            within it and the device's useragent string can be handled. Or true if if
+            the useragent string can be handled but no supported root devices are provided.
+            Otherwise false.</returns>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.Handlers.Handler.CanHandleDevice(FiftyOne.Foundation.Mobile.Detection.Wurfl.DeviceInfo)">
+            <summary>
+            Checks to see if the device specified is on of the supported root
+            devices. If it's not then the fallback device is checked.
+            </summary>
+            <param name="device">Device to be checked.</param>
+            <returns>True if the device is matched against a root device.
+            False if the device is null or is not matched.</returns>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.Handlers.Handler.CanHandle(System.Web.HttpRequest)">
+            <summary>
+            <para>
+            First checks if the useragent from the request can be handled by 
+            this handler.
+            </para>
+            <para>
+            If the useragent can't be handled then the request is checked to 
+            determine if a uaprof header field is provided. If so we check
+            the list of uaprof domains assigned to this handler to see if
+            they share the same domain.
+            </para>
+            </summary>
+            <param name="request">Request with headers to be processed.</param>
+            <returns>True if this handler could be able to match the device otherwise false.</returns>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.Handlers.Handler.Match(System.Web.HttpRequest)">
+            <summary>
+            Performs an exact match using the userAgent string. If no results are found
+            uses the UA prof header parameters to find a list of devices.
+            </summary>
+            <param name="request">details of the page request.</param>
+            <returns>null if no exact match was found. Otherwise the matching devices.</returns>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.Handlers.Handler.CleanUaProf(System.String)">
+            <summary>
+            Removes any speech marks from the user agent string.
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.Handlers.Handler.SetUserAgent(FiftyOne.Foundation.Mobile.Detection.Wurfl.DeviceInfo)">
+            <summary>
+            Adds the device and it's user agent string to the collection
+            of user agent strings and devices.
+            </summary>
+            <param name="device">New device to add.</param>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.Handlers.Handler.SetUaProf(FiftyOne.Foundation.Mobile.Detection.Wurfl.DeviceInfo)">
+            <summary>
+            Adds the device to the collection of devices with UA prof information.
+            If the device already exists the previous one is replaced.
+            </summary>
+            <param name="device">Device to be added.</param>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.Handlers.Handler.GetDeviceInfo(System.Collections.Generic.SortedDictionary{System.Int32,FiftyOne.Foundation.Mobile.Detection.Wurfl.DeviceInfo[]},System.String)">
+            <summary>
+            Returns the devices that match a specific hashcode.
+            </summary>
+            <param name="_dictionary">Collection of hashcodes and devices.</param>
+            <param name="value">Value that's hashcode is being sought.</param>
+            <returns>Array of devices matching the value.</returns>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Detection.Wurfl.Handlers.Handler.SupportedRootDeviceIds">
+            <summary>
+            An array of device ids that must be in the device hierarchy
+            to enable the handler to support the device. Overriden in 
+            derived classess to provide an array of root device ids.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Detection.Wurfl.Handlers.Handler.UserAgents">
+            <summary>
+            Returns the device values without the hashcode used to rapidly
+            search for devices based on the userAgent string.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Detection.Wurfl.Handlers.Handler.Confidence">
+            <summary>
+            The confidence to assign to results from this handler.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Detection.Wurfl.Handlers.Handler.DefaultDevice">
+            <summary>
+            The default device for the handler. If not overriden the default
+            device for the API will be returned.
+            </summary>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.Handlers.RegexSegmentHandler.#ctor(System.String)">
+            <summary>
+            Constructs an instance of <cref see="RegexSegmentHandler"/>.
+            </summary>
+            <param name="regex">The regular expression to use for a single segment.</param>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.Handlers.RegexSegmentHandler.#ctor(System.String,System.Int32[])">
+            <summary>
+            Constructs an instance of <cref see="RegexSegmentHandler"/>.
+            </summary>
+            <param name="regex">The regular expression to use for a single segment.</param>
+            <param name="weights">A single item array with the weight of the item.</param>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.Handlers.RegexSegmentHandler.#ctor(System.String[],System.Int32[])">
+            <summary>
+            Constructs an instance of <cref see="RegexSegmentHandler"/>.
+            </summary>
+            <param name="regexs">An array of regular expressions for each segment.</param>
+            <param name="weights">An array of weights assigned to each segment. The higher the value the more significance given.</param>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.Handlers.RegexSegmentHandler.#ctor(System.String,System.Int32[],System.Boolean)">
+            <summary>
+            Constructs an instance of <cref see="RegexSegmentHandler"/>.
+            </summary>
+            <param name="regex">An array of regular expressions for each segment.</param>
+            <param name="weights">An array of weights assigned to each segment. The higher the value the more significance given.</param>
+            <param name="firstMatchOnly">True if the 1st device matched should be returned.</param>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.Handlers.RegexSegmentHandler.#ctor(System.String[],System.Int32[],System.Boolean)">
+            <summary>
+            Constructs an instance of <cref see="RegexSegmentHandler"/>.
+            </summary>
+            <param name="regexs">An array of regular expressions for each segment.</param>
+            <param name="weights">An array of weights assigned to each segment. The higher the value the more significance given.</param>
+            <param name="firstMatchOnly">True if the 1st device matched should be returned.</param>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.Handlers.RegexSegmentHandler.CanHandle(System.Web.HttpRequest)">
+            <summary>
+            Returns true if the handler can match the requests useragent string.
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.Handlers.RegexSegmentHandler.CanHandle(System.String)">
+            <summary>
+            Returns true if the handler can match the requests useragent string.
+            </summary>
+            <param name="userAgent"></param>
+            <returns></returns>
+        </member>
+        <member name="T:FiftyOne.Foundation.Mobile.Detection.Wurfl.Constants">
+            <summary>
+            Holds all constants and read only strings used throughout this library.
+            </summary>
+        </member>
+        <member name="F:FiftyOne.Foundation.Mobile.Detection.Wurfl.Constants.ActualDeviceRoot">
+            <summary>
+            The attribute used to determine if the device is a root.
+            </summary>
+        </member>
+        <member name="F:FiftyOne.Foundation.Mobile.Detection.Wurfl.Constants.CapabilityNodeName">
+            <summary>
+            Node name used to especify a capability inside the WURFL xml file.
+            </summary>
+        </member>
+        <member name="F:FiftyOne.Foundation.Mobile.Detection.Wurfl.Constants.DeviceNodeName">
+            <summary>
+            Node name used to specify a device inside the WURFL xml file.
+            </summary>
+        </member>
+        <member name="F:FiftyOne.Foundation.Mobile.Detection.Wurfl.Constants.EstimateNumberOfDevices">
+            <summary>
+            Holds an estimative of how many devices we'll need to store,
+            use this value when creating collections to store devices.
+            </summary>
+        </member>
+        <member name="F:FiftyOne.Foundation.Mobile.Detection.Wurfl.Constants.FallbackAttributeName">
+            <summary>
+            Node name used to especify a fall back inside the WURFL xml file.
+            </summary>
+        </member>
+        <member name="F:FiftyOne.Foundation.Mobile.Detection.Wurfl.Constants.IdAttributeName">
+            <summary>
+            Attribute name used to especify an id inside the WURFL xml file.
+            </summary>
+        </member>
+        <member name="F:FiftyOne.Foundation.Mobile.Detection.Wurfl.Constants.NameAttributeName">
+            <summary>
+            Attribute name used to especify a name inside the WURFL xml file.
+            </summary>
+        </member>
+        <member name="F:FiftyOne.Foundation.Mobile.Detection.Wurfl.Constants.NewUrlTimeOut">
+            <summary>
+            Length of time in ms the new devices thread should wait for a response from the
+            web server used to record new device information.
+            </summary>
+        </member>
+        <member name="F:FiftyOne.Foundation.Mobile.Detection.Wurfl.Constants.UserAgentAttributeName">
+            <summary>
+            Attribute name used to especify a user agent inside the WURFL xml file.
+            </summary>
+        </member>
+        <member name="F:FiftyOne.Foundation.Mobile.Detection.Wurfl.Constants.ValueAttributeName">
+            <summary>
+            Attribute name used to especify a value inside the WURFL xml file.
+            </summary>
+        </member>
+        <member name="F:FiftyOne.Foundation.Mobile.Detection.Wurfl.Constants.WurflCapabilities">
+            <summary>
+            The name of the key used to retrieve the SortedList object from
+            the HttpBrowserCapabilities collection.
+            </summary>
+        </member>
+        <member name="F:FiftyOne.Foundation.Mobile.Detection.Wurfl.Constants.WurflFileNotFound">
+            <summary>
+            Message used to throw an exception when the wurfl xml file is not found.
+            </summary>
+        </member>
+        <member name="F:FiftyOne.Foundation.Mobile.Detection.Wurfl.Constants.WurflNewDeviceXmlException">
+            <summary>
+            Exception message used if the XML can not be created for a new device.
+            </summary>
+        </member>
+        <member name="F:FiftyOne.Foundation.Mobile.Detection.Wurfl.Constants.DefaultDeviceId">
+            <summary>
+            Contains the default device ids to be searched for.
+            </summary>
+        </member>
+        <member name="F:FiftyOne.Foundation.Mobile.Detection.Wurfl.Constants.DefaultUsedCapabilities">
+            <summary>
+            Holds the minimum set of capabilities to be loaded.
+            These are the capabilities used to override the ASP.Net Browser Capabilities.
+            </summary>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.Matchers.UserAgentParser.InitReplaceFilters">
+            <summary>
+            Create the regular expressions that are used to filter out common
+            problems with useragent strings.
+            </summary>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.Matchers.UserAgentParser.Parse(System.String)">
+            <summary>
+            Check the user agent string for common errors that hinder matching. 
+            </summary>
+            <param name="userAgent">A useragent string to be cleaned.</param>
+            <returns>A cleaned useragent string.</returns>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Detection.Wurfl.Handlers.MaemoNokiaHandler.Confidence">
+            <summary>
+            Provides a higher degree of confidence because only devices in the "nokia_generic_maemo"
+            branch of the device tree are available for matching.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Detection.Wurfl.Handlers.MaemoNokiaHandler.SupportedRootDeviceIds">
+            <summary>
+            An array of supported root devices that devices from the WURFL
+            data file need to be children of to be valid for this handler.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Detection.Wurfl.Handlers.OperaDesktopHandler.Confidence">
+            <summary>
+            Provides a higher degree of confidence because only devices in the "opera"
+            branch of the device tree are available for matching.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Detection.Wurfl.Handlers.OperaDesktopHandler.SupportedRootDeviceIds">
+            <summary>
+            An array of supported root devices that devices from the WURFL
+            data file need to be children of to be valid for this handler.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Detection.Wurfl.Handlers.OperaMiniHandler.Confidence">
+            <summary>
+            Provides a higher degree of confidence because only devices in the "opera_mini_ver1"
+            branch of the device tree are available for matching.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Detection.Wurfl.Handlers.OperaMiniHandler.SupportedRootDeviceIds">
+            <summary>
+            An array of supported root devices that devices from the WURFL
+            data file need to be children of to be valid for this handler.
+            </summary>
+        </member>
+        <member name="T:FiftyOne.Foundation.Mobile.Detection.Wurfl.Configuration.CapabilityElement">
+            <summary>
+            Defines configuration settings for capabilities. This class cannot be inherited.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Detection.Wurfl.Configuration.CapabilityElement.CapabilityName">
+            <summary>
+            Gets or sets the capability's name.
+            </summary>
+        </member>
+        <member name="T:FiftyOne.Foundation.Mobile.Detection.Wurfl.WurflException">
+            <summary>
+            Represents Wurfl exceptions.
+            </summary>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.WurflException.#ctor">
+            <summary>
+            Initializes a new instance of <see cref="T:FiftyOne.Foundation.Mobile.Detection.Wurfl.WurflException"/>
+            </summary>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.WurflException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of <see cref="T:FiftyOne.Foundation.Mobile.Detection.Wurfl.WurflException"/>
+            </summary>
+            <param name="message">The human readable message explaining the exception.</param>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.WurflException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of <see cref="T:FiftyOne.Foundation.Mobile.Detection.Wurfl.WurflException"/>
+            </summary>
+            <param name="message">The human readable message explaining the exception.</param>
+            <param name="innerException">The exception that caused the new one.</param>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.WurflException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Initializes a new instance of <see cref="T:FiftyOne.Foundation.Mobile.Detection.Wurfl.WurflException"/>
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Detection.Wurfl.Handlers.WindowsPhoneHandler.Confidence">
+            <summary>
+            Provides a higher degree of confidence because only devices in the "generic_mobile_browser_ver1_winmo7"
+            branch of the device tree are available for matching.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Detection.Wurfl.Handlers.WindowsPhoneHandler.SupportedRootDeviceIds">
+            <summary>
+            An array of supported root devices that devices from the WURFL
+            data file need to be children of to be valid for this handler.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Detection.Wurfl.Handlers.MSIEDesktopHandler.Confidence">
+            <summary>
+            Provides a higher degree of confidence because only devices in the "msie"
+            branch of the device tree are available for matching.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Detection.Wurfl.Handlers.MSIEDesktopHandler.SupportedRootDeviceIds">
+            <summary>
+            An array of supported root devices that devices from the WURFL
+            data file need to be children of to be valid for this handler.
+            </summary>
+        </member>
+        <member name="T:FiftyOne.Foundation.Mobile.Detection.Wurfl.Configuration.Manager">
+            <summary>
+            Returns all the settings from the Web.Config for this component.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Detection.Wurfl.Configuration.Manager.Enabled">
+            <summary>
+            Returns true if the <see cref="N:FiftyOne.Foundation.Mobile.Detection.Wurfl"/> namespace is activated
+            through valid settings in the web.config file.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Detection.Wurfl.Configuration.Manager.UseActualDeviceRoot">
+            <summary>
+            When set to true only Wurfl devices marked with the attribute "actual_device_root"
+            are used to provide capabilities.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Detection.Wurfl.Configuration.Manager.WurflFilePath">
+            <summary>
+            Gets the wurfl xml file path.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Detection.Wurfl.Configuration.Manager.NewDevicesURL">
+            <summary>
+            Gets the URL to send new device information to.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Detection.Wurfl.Configuration.Manager.CapabilitiesWhiteList">
+            <summary>
+            Gets a list containing the names of the capabilities to be used.
+            If none, all capabilities will be loaded into the memory.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Detection.Wurfl.Configuration.Manager.WurflPatchFiles">
+            <summary>
+            Gets a list containing the path of the wurfl patches to be applied.
+            </summary>
+        </member>
+        <member name="F:FiftyOne.Foundation.Mobile.Detection.Constants.ForceSingleProcessor">
+            <summary>
+            Forces the useragent matcher to use a single thread if 
+            multiple processors are available.
+            </summary>
+        </member>
+        <member name="F:FiftyOne.Foundation.Mobile.Detection.Constants.TRANSCODER_USERAGENT_HEADERS">
+            <summary>
+            Array of transcoder HTTP headers that represent the useragent string of the
+            mobile device rather than the desktop browser.
+            </summary>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.Matchers.Request.CreateQueue(FiftyOne.Foundation.Mobile.Detection.Wurfl.Handlers.Handler)">
+            <summary>
+            Takes a handler and returns a queue containing the userAgent strings. Ensures a
+            lock is obtained on the handler before creating the queue to avoid another thread
+            accessing or changing content at the same time.
+            </summary>
+            <param name="handler">handler containing devices</param>
+            <returns>queue of userAgent strings</returns>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.Handlers.SafariHandler.CanHandleDevice(FiftyOne.Foundation.Mobile.Detection.Wurfl.DeviceInfo)">
+            <summary>
+            Checks to ensure the device is not associated with root devices handled
+            by the SafariDesktopHandler.
+            </summary>
+            <param name="device">Device to be checked.</param>
+            <returns>True if the device is not associated with the unsupported devices.</returns>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Detection.Wurfl.Handlers.SafariDesktopHandler.Confidence">
+            <summary>
+            Provides a higher degree of confidence because only devices in the "safari"
+            branch of the device tree are available for matching.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Detection.Wurfl.Handlers.SafariDesktopHandler.SupportedRootDeviceIds">
+            <summary>
+            An array of supported root devices that devices from the WURFL
+            data file need to be children of to be valid for this handler.
+            </summary>
+        </member>
+        <member name="T:FiftyOne.Foundation.Mobile.Detection.Wurfl.Configuration.WurflSection">
+            <summary>
+            Configures the wurfl section. This class cannot be inherited.
+            </summary>
+            <remarks>
+            <para>
+            All the configuration information necessary to access and control the WURFL device database 
+            is held in this section of the <c>web.config</c> file.
+            </para>
+            <example>
+            <para>
+            The follow example will look for the core device database at <c>~/App_Data/wurfl.xml.gz</c>.
+            An additional file is also provided. <c>~/App_Data/web_browsers_patch.xml.gz</c> contains
+            details of non mobile web browsers.
+            </para>
+            <para>
+            The toolkit will check the <c>http://51degrees.mobi/wurfl-latest.xml.gz</c> URL for updates
+            to the core device database when the current database is older than 28 days. The URL
+            is checked whenever the toolkit is initialised.
+            </para>
+            <code lang="xml">
+            &lt;wurfl wurflFilePath="~/App_Data/wurfl.xml.gz"&gt;
+                &lt;wurflPatches&gt;
+                    &lt;add name="browser_definitions" filePath="~/App_Data/web_browsers_patch.xml.gz" enabled="true" /&gt;
+                &lt;/wurflPatches&gt;
+                &lt;wurflUpdateUrls&gt;
+                    &lt;add url="http://51degrees.mobi/wurfl-latest.xml.gz" days="28" /&gt;
+                &lt;/wurflUpdateUrls&gt;
+            &lt;/wurfl>
+            </code>
+            </example>
+            </remarks>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Detection.Wurfl.Configuration.WurflSection.UseActualDeviceRoot">
+            <summary>
+            When set to true only Wurfl devices marked with the attribute "actual_device_root"
+            are used to provide capabilities. Child devices will continue to be used to 
+            for device matching but their capabilities will not be used. This is an advanced
+            feature for those familar with WURFL. (Optional)
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Detection.Wurfl.Configuration.WurflSection.WurflFilePath">
+            <summary>
+            Gets the path to access the WURFL XML file. Defaults to <c>~/bin/wurfl.xml.gz</c>.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Detection.Wurfl.Configuration.WurflSection.WurflUpdateUrls">
+            <summary>
+            Gets the collection of URLs to be used to find updates to the wurfl data file.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Detection.Wurfl.Configuration.WurflSection.WurflPatches">
+            <summary>
+            Gets the collection of patches to be applied to the original WurflFile.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Detection.Wurfl.Configuration.WurflSection.NewDevicesURL">
+            <summary>
+            Gets the URL to send new device information to.
+            </summary>
+            <remarks>
+            If provided new device information will be sent to the URL.
+            </remarks>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Detection.Wurfl.Configuration.WurflSection.NewDeviceDetail">
+            <summary>
+            Determines the level of detail recoreded for new devices and the 
+            associated HTTP request. Valid values are:
+                minimum - only the wap profile and useragent are recorded.
+                maximum - all the HTTP headers are recorded.
+            </summary>
+            <remarks>
+            
+            </remarks>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Detection.Wurfl.Configuration.WurflSection.CapabilitiesWhiteList">
+            <summary>
+            Gets capabilities name that will be loaded from the WURFL files.
+            If none is set, all the capabilities will be loaded what could have
+            a significant cost in server memory.
+            </summary>
+        </member>
+        <member name="T:FiftyOne.Foundation.Mobile.Detection.Wurfl.Configuration.CapabilityCollection">
+            <summary>
+            A collection of <see cref="T:FiftyOne.Foundation.Mobile.Detection.Wurfl.Configuration.CapabilityElement"/>. This class cannot be inherited.
+            </summary>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.Configuration.CapabilityCollection.CreateNewElement">
+            <summary>
+            Creates a new instance of <see cref="T:FiftyOne.Foundation.Mobile.Detection.Wurfl.Configuration.PatchesCollection"/>.
+            </summary>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.Configuration.CapabilityCollection.GetElementKey(System.Configuration.ConfigurationElement)">
+            <summary>
+            Gets the element key value.
+            </summary>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.Configuration.CapabilityCollection.BaseAdd(System.Configuration.ConfigurationElement)">
+            <summary>
+            Add element to the base collection.
+            </summary>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.Configuration.CapabilityCollection.IndexOf(FiftyOne.Foundation.Mobile.Detection.Wurfl.Configuration.CapabilityElement)">
+            <summary>
+            Gets the index of the specific element inside the collection.
+            </summary>
+            <param name="capability">The capability whos index is being sought.</param>
+            <returns>The index of the capability requested.</returns>
+            <exception cref="T:System.ArgumentNullException">Thrown if <paramref name="capability"/> equals null.</exception>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.Configuration.CapabilityCollection.Add(FiftyOne.Foundation.Mobile.Detection.Wurfl.Configuration.CapabilityElement)">
+            <summary>
+            Add element into the collection.
+            </summary>
+            <param name="capability">The capability to be added to the whitelist.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if <paramref name="capability"/> equals null.</exception>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.Configuration.CapabilityCollection.Remove(FiftyOne.Foundation.Mobile.Detection.Wurfl.Configuration.CapabilityElement)">
+            <summary>
+            Removes a <see cref="T:System.Configuration.ConfigurationElement"/> from the collection.
+            </summary>
+            <param name="capability">The capability to be removed from the whitelist.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if <paramref name="capability"/> equals null.</exception>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.Configuration.CapabilityCollection.RemoveAt(System.Int32)">
+            <summary>
+            Removes a <see cref="T:System.Configuration.ConfigurationElement"/> at the specified index location.
+            </summary>
+            <param name="index">The index of the element to be removed.</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">Thrown if <paramref name="index"/> is less than zero or bigger than the number of indexes on the collections.</exception>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.Configuration.CapabilityCollection.Remove(System.String)">
+            <summary>
+            Removes a <see cref="T:System.Configuration.ConfigurationElement"/> from the collection.
+            </summary>
+            <param name="capabilityName">The name of the capability to be removed.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if <paramref name="capabilityName"/> equals null.</exception>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.Configuration.CapabilityCollection.Clear">
+            <summary>
+            Removes all configuration elements from the collection.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Detection.Wurfl.Configuration.CapabilityCollection.Item(System.Int32)">
+            <summary>
+            Gets or sets the <see cref="T:FiftyOne.Foundation.Mobile.Detection.Wurfl.Configuration.CapabilityElement"/>.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Detection.Wurfl.Configuration.CapabilityCollection.Item(System.String)">
+            <summary>
+            Gets or sets the <see cref="T:FiftyOne.Foundation.Mobile.Detection.Wurfl.Configuration.CapabilityElement"/>.
+            </summary>        
+        </member>
+        <member name="T:FiftyOne.Foundation.Mobile.Configuration.UrlElement">
+            <summary>
+            Used in the <c>web.config</c> to provide Urls and refresh periods to automatically
+            update application data files such as Wurfl data files.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Configuration.UrlElement.Url">
+            <summary>
+            Gets or sets the url.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Configuration.UrlElement.Days">
+            <summary>
+            Gets or sets a value indicating whether this url should be used.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Configuration.UrlElement.Enabled">
+            <summary>
+            Gets or sets a value indicating whether this url should be used.
+            </summary>
+        </member>
+        <member name="T:FiftyOne.Foundation.Mobile.Configuration.FilterElement">
+            <summary>
+            Contains information for all filters of a location element in the
+            <c>web.config</c> file.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Configuration.FilterElement.Property">
+            <summary>
+            Gets or sets the name of the property. 
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Configuration.FilterElement.MatchExpression">
+            <summary>
+            Gets or sets the expression to be used to determine a match. 
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Configuration.FilterElement.Enabled">
+            <summary>
+            Gets or sets a value indicating whether this filter should be used.
+            </summary>
+        </member>
+        <member name="T:FiftyOne.Foundation.Mobile.Detection.MobileCapabilities">
+            <summary>
+            Enhanced mobile capabilities assigned to mobile devices.
+            </summary>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.MobileCapabilities.Create(System.Web.HttpRequest,System.Collections.IDictionary)">
+            <summary>
+            Creates a new set of capabilities based on the context provided.
+            </summary>
+            <param name="request">HttpRequest from the device.</param>
+            <param name="currentCapabilities">Capabilities already determined by other sources.</param>
+            <returns>A dictionary of capabilities.</returns>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.MobileCapabilities.Create(System.String)">
+            <summary>
+            Creates a new set of capabilities based on the userAgent string provided.
+            </summary>
+            <param name="userAgent">UserAgent string of the device.</param>
+            <returns>A dictionary of capabilities.</returns>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.MobileCapabilities.Init(System.Collections.IDictionary)">
+            <summary>
+            Initialises the IDictionary of capabilities.
+            </summary>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.MobileCapabilities.SetJavaScript(System.Collections.IDictionary,System.Boolean)">
+            <summary>
+            Sets the javascript boolean string in the capabilities dictionary.
+            </summary>
+            <param name="capabilities">Capabilities dictionary.</param>
+            <param name="javaScript">The value of the jaavscript keys.</param>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.MobileCapabilities.SetValue(System.Collections.IDictionary,System.String,System.Object)">
+            <summary>
+            Sets the key in the capabilities dictionary to the object provided. If the key 
+            already exists the previous value is replaced. If not a new entry is added
+            to the Dictionary.
+            </summary>
+            <param name="capabilities">Dictionary of capabilities to be changed.</param>
+            <param name="key">Key to be changed or added.</param>
+            <param name="value">New entry value.</param>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.MobileCapabilities.GetTagWriter(System.Collections.IDictionary)">
+            <summary>
+            Returns the class to use as a text writer for the output stream.
+            </summary>
+            <param name="capabilities">Dictionary of device capabilities.</param>
+            <returns>A string containing the text writer class name.</returns>
+        </member>
+        <member name="T:FiftyOne.Foundation.Mobile.Detection.Wurfl.DeviceInfo">
+            <summary>
+            Represents a device and holds all its settings.
+            </summary>
+        </member>
+        <member name="F:FiftyOne.Foundation.Mobile.Detection.Wurfl.DeviceInfo._deviceCapabilities">
+            <summary>
+            Holds all capabilities from the current device
+            </summary>
+        </member>
+        <member name="F:FiftyOne.Foundation.Mobile.Detection.Wurfl.DeviceInfo._deviceId">
+            <summary>
+            The Id of the device.
+            </summary>
+        </member>
+        <member name="F:FiftyOne.Foundation.Mobile.Detection.Wurfl.DeviceInfo._devices">
+            <summary>
+            A reference to the collection of all devices.
+            </summary>
+        </member>
+        <member name="F:FiftyOne.Foundation.Mobile.Detection.Wurfl.DeviceInfo._fallbackDevice">
+            <summary>
+            The fallback device.
+            </summary>
+        </member>
+        <member name="F:FiftyOne.Foundation.Mobile.Detection.Wurfl.DeviceInfo._userAgent">
+            <summary>
+            The useragent string of the device.
+            </summary>
+        </member>
+        <member name="F:FiftyOne.Foundation.Mobile.Detection.Wurfl.DeviceInfo.IsWirelessDeviceIndex">
+            <summary>
+            The static index of the "is_wireless_device" string in the Strings static collection.
+            </summary>
+        </member>
+        <member name="F:FiftyOne.Foundation.Mobile.Detection.Wurfl.DeviceInfo.IsTabletDeviceIndex">
+            <summary>
+            The static index of the "is_tablet" string in the Strings static collection.
+            </summary>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.DeviceInfo.#ctor">
+            <summary>
+            Hide the default constructor.
+            </summary>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.DeviceInfo.#ctor(FiftyOne.Foundation.Mobile.Detection.Wurfl.DeviceInfo,System.String)">
+            <summary>
+            Creates a new device using the source device as the fallback.
+            </summary>
+            <param name="source">Source device for the new device.</param>
+            <param name="deviceId">Id of the new device.</param>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.DeviceInfo.#ctor(FiftyOne.Foundation.Mobile.Detection.Wurfl.Provider,System.String,System.String)">
+            <summary>
+            Creates an instance of DeviceInfo.
+            </summary>
+            <param name="userAgent">User agent string used to identify this device.</param>
+            <param name="deviceId">A unique Identifier of the device.</param>
+            <param name="devices">A reference to the complete index of devices.</param>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.DeviceInfo.#ctor(FiftyOne.Foundation.Mobile.Detection.Wurfl.Provider,System.String,System.String,FiftyOne.Foundation.Mobile.Detection.Wurfl.DeviceInfo)">
+            <summary>
+            Creates an instance of DeviceInfo.
+            </summary>
+            <param name="userAgent">User agent string used to identify this device.</param>
+            <param name="deviceId">A unique Identifier of the device.</param>
+            <param name="devices">A reference to the complete index of devices.</param>
+            <param name="fallbackDevice">The fallback device to use for this device if any.</param>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.DeviceInfo.#ctor(FiftyOne.Foundation.Mobile.Detection.Wurfl.Provider,System.String)">
+            <summary>
+            Creates an instance of DeviceInfo.
+            </summary>
+            <param name="deviceId">A unique Identifier of the device.</param>
+            <param name="devices">A reference to the complete index of devices.</param>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.DeviceInfo.SetUserAgent(System.String)">
+            <summary>
+            Set the userAgent string for this device to the value specified.
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.DeviceInfo.GetCapability(System.Int32)">
+            <summary>
+            Gets the capability value index in the static Strings collection for this device
+            based on the index of the capability name.
+            </summary>
+            <param name="index">Capability name index.</param>
+            <returns>Capability index value in the String collection, or -1 if the capability does not exist.</returns>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.DeviceInfo.GetCapabilityNoFallback(System.Int32)">
+            <summary>
+            Gets the capability value index in the static Strings collection for this device
+            based on the index of the capability name. The fallback device will not be checked.
+            </summary>
+            <param name="index">Capability name index.</param>
+            <returns>Capability index value in the String collection, or -1 if the capability does not exist.</returns>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Detection.Wurfl.DeviceInfo.IsTabletDevice">
+            <summary>
+            Returns true if the device is a tablet device.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Detection.Wurfl.DeviceInfo.IsMobileDevice">
+            <summary>
+            Returns true if the device is a wireless device.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Detection.Wurfl.DeviceInfo.IsActualDeviceRoot">
+            <summary>
+            Returns true if the device is a root device.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Detection.Wurfl.DeviceInfo.DeviceId">
+            <summary>
+            Gets the internal identifier of the device as specified in the WURFL.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Detection.Wurfl.DeviceInfo.UserAgent">
+            <summary>
+            Contains the device user agent string.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Detection.Wurfl.DeviceInfo.Capabilities">
+            <summary>
+            The list of device capabilities.
+            </summary>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Redirection.Filter.GetIsMatch(System.Web.HttpContext)">
+            <summary>
+            Determines if this filter matches the requesting device.
+            </summary>
+            <param name="context">Context of the requesting device.</param>
+            <returns>True if the capability matches, otherwise false.</returns>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Redirection.Filter.GetPropertyValue(System.Web.HttpContext,System.String)">
+            <summary>
+            Returns the value for the property requested.
+            </summary>
+            <param name="property">The property name to be returned.</param>
+            <param name="context">The context associated with the request.</param>
+            <returns></returns>
+        </member>
+        <member name="T:FiftyOne.Foundation.Mobile.Configuration.LogSection">
+            <summary>
+            Configuration settings for the log file creation and detail.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Configuration.LogSection.Enabled">
+            <summary>
+            Returns true if the functionality of <see cref="T:FiftyOne.Foundation.Mobile.Configuration.LogSection"/> is enabled.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Configuration.LogSection.LogFile">
+            <summary>
+            Log file used by Log class to record events. If not provided no logging will occur.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Configuration.LogSection.LogLevel">
+            <summary>
+            The level to use when writing log entries. Valid values are:
+                Debug
+                Info
+                Warn
+                Fatal
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Configuration.LogSection.PageLogDirectory">
+            <summary>
+            <para>
+            Optional attribute <c>activityLogDirectory</c>.
+            </para>
+            </summary>
+            <para>
+            If specified log files for page activity will be output to this directory. Unlike
+            IIS log files the mobile number and mobile device information will also be included.
+            </para>
+            <para>
+            Files will be written for each UTC day in the format YYYYMMDD.txt.
+            </para>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.Matchers.Final.Matcher.Match(System.String,FiftyOne.Foundation.Mobile.Detection.Wurfl.Matchers.Results)">
+            <summary>
+            Examines each string in the list to find the one that has the highest number of
+            initial matching characters. If only one is found this is returned. If more than
+            one have the same number of matches are found further analysis is performed
+            on the non matching parts or string tails.
+            </summary>
+            <param name="userAgent">userAgent to be found</param>
+            <param name="results">list of possible devices to match against</param>
+            <returns>The closest matching device</returns>
+        </member>
+        <member name="T:FiftyOne.Foundation.Mobile.Detection.DetectorModule">
+            <summary>
+            Module used to enhance mobile browser information and detect and redirect
+            mobile devices accessing non-mobile web pages.
+            </summary>
+        </member>
+        <member name="T:FiftyOne.Foundation.Mobile.Redirection.RedirectModule">
+            <summary>
+            Class responsible for handling redirection based on predefined rules.
+            </summary>
+        </member>
+        <member name="F:FiftyOne.Foundation.Mobile.Redirection.RedirectModule._lock">
+            <summary>
+            Used to lock the initialisation of static fields.
+            </summary>
+        </member>
+        <member name="F:FiftyOne.Foundation.Mobile.Redirection.RedirectModule._initialised">
+            <summary>
+            Indicates if static initialisation has been completed.
+            </summary>
+        </member>
+        <member name="F:FiftyOne.Foundation.Mobile.Redirection.RedirectModule._firstRequestOnly">
+            <summary>
+            If set to true only the first eligable request received by the web
+            site will be redirected to the mobile landing page contained in
+            _mobileRedirectUrl.
+            </summary>
+        </member>
+        <member name="F:FiftyOne.Foundation.Mobile.Redirection.RedirectModule._redirectTimeout">
+            <summary>
+            The number of minutes that should elapse before the record of 
+            previous access for the device should be removed from all
+            possible storage mechanisims.
+            </summary>
+        </member>
+        <member name="F:FiftyOne.Foundation.Mobile.Redirection.RedirectModule._formsLoginUrl">
+            <summary>
+            The login url for forms authentication.
+            </summary>
+        </member>
+        <member name="F:FiftyOne.Foundation.Mobile.Redirection.RedirectModule._locations">
+            <summary>
+            A collection of homepages that could be used for redirection. 
+            Evaluated before the _mobileHomePageUrl value is used.
+            Initialised from the <c>web.config</c> file when the module 
+            is created.
+            </summary>
+        </member>
+        <member name="F:FiftyOne.Foundation.Mobile.Redirection.RedirectModule._mobileHomePageUrl">
+            <summary>
+            The URL to use to redirect a mobile device accessing
+            a non mobile web page to. Initialised from the <c>web.config</c> file
+            when the module is created.
+            </summary>
+        </member>
+        <member name="F:FiftyOne.Foundation.Mobile.Redirection.RedirectModule._mobilePageRegex">
+            <summary>
+            A regular expression that when applied to the current request Path
+            (context.Request.AppRelativeCurrentExecutionFilePath) will return true
+            if it should be considered a mobile page. Use this attribute to tell
+            redirection about mobile pages derived from base classes such as 
+            System.Web.UI.Page. Redirection needs to be aware of mobile pages so
+            that requests to these pages can be ignored. Any page that derives from 
+            System.Web.UI.MobileControls.MobilePage will automatically be treated 
+            as a mobile page irrespective of this attribute. (Optional)
+            </summary>
+        </member>
+        <member name="F:FiftyOne.Foundation.Mobile.Redirection.RedirectModule._originalUrlAsQueryString">
+            <summary>
+            If set to true the original URL of the request is added to the redirected
+            querystring in a paramter called origUrl.
+            </summary>
+        </member>
+        <member name="F:FiftyOne.Foundation.Mobile.Redirection.RedirectModule._redirectEnabled">
+            <summary>
+            If set to true redirection is enabled.
+            </summary>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Redirection.RedirectModule.Init(System.Web.HttpApplication)">
+            <summary>
+            Initiliases the HttpMobile registering this modules interest in
+            all new requests and handler mappings.
+            </summary>
+            <param name="application">HttpApplication object for the web application.</param>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Redirection.RedirectModule.StaticFieldInit">
+            <summary>
+            Initialises the static fields.
+            </summary>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Redirection.RedirectModule.OnBeginRequest(System.Object,System.EventArgs)">
+            <summary>
+            Record the original requesting URL.
+            </summary>
+            <param name="sender">HttpApplication related to the request.</param>
+            <param name="e">EventArgs related to the event. Not used.</param>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Redirection.RedirectModule.OnPostAcquireRequestState(System.Object,System.EventArgs)">
+            <summary>
+            If the handler assigned to the request isn't a mobile one and the browser that
+            is accessing the page is a wireless device then redirect the browser to the 
+            mobile home page for the site. The redirect is done through the resposne to
+            ensure a fresh request is made to the server.
+            </summary>
+            <param name="sender">HttpApplication related to the request.</param>
+            <param name="e">EventArgs related to the event. Not used.</param>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Redirection.RedirectModule.Dispose">
+            <summary>
+            Records the module being disposed if debug enabled.
+            </summary>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Redirection.RedirectModule.GetOriginalUrl(System.Web.HttpContext)">
+            <summary>
+            Returns the Url stored in the context when the request first began before 
+            other modules may have changed it. If not available returns the Url
+            using the current request value.
+            </summary>
+            <param name="context">The Context of the request.</param>
+            <returns>The original Url of the request.</returns>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Redirection.RedirectModule.GetLocationUrl(System.Web.HttpContext)">
+            <summary>
+            Evaluates the location that should be used when redirecting 
+            the requesting context. If the locations collection does
+            not provide a location then the mobile home page url will
+            be used only if the device is a mobile.
+            </summary>
+            <param name="context">Context of the request.</param>
+            <returns>The url to redirect the request to, if any.</returns>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Redirection.RedirectModule.GetLocationName(System.Web.HttpContext)">
+            <summary>
+            Gets the name of the currently active location if one is being used. Only
+            used for debugging.
+            </summary>
+            <param name="context">Context of the request.</param>
+            <returns>The name of the location.</returns>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Redirection.RedirectModule.GetLocation(System.Web.HttpContext)">
+            <summary>
+            Returns the location object to be used for the request if any.
+            </summary>
+            <param name="context">Context of the request.</param>
+            <returns>Null if no location available, or the location object.</returns>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Redirection.RedirectModule.ShouldRequestRedirect(System.Web.HttpContext)">
+            <summary>
+            Returns true if the request should be redirected.
+            </summary>
+            <param name="context">The HttpContext of the request.</param>
+            <returns>True if the request should be redirected.</returns>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Redirection.RedirectModule.IsRestrictedPageForRedirect(System.Web.HttpContext)">
+            <summary>
+            Checks the page being requested to determine if it is eligable
+            for redirection. The mobile home page and the forms authentication
+            login page are restricted from redirection. If the response
+            is already being redirected it should be ignored.
+            </summary>
+            <param name="context">The context of the request.</param>
+            <returns>True if the page is restricted from being redirected.</returns>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Redirection.RedirectModule.IsFirstTime(System.Web.HttpContext)">
+            <summary>
+            Determines if this is the first request received from the device.
+            </summary>
+            <param name="context">Context of the request.</param>
+            <returns>True if this request is the first from the device. Otherwise false.</returns>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Redirection.RedirectModule.GetExpiryDateTime">
+            <summary>
+            Returns a long value representing the expiry date time to be used
+            for the current request.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Redirection.RedirectModule.SetSession(System.Web.HttpContext)">
+            <summary>
+            Sets the session key to the expiry time for the current device.
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Redirection.RedirectModule.WipeResponseCookie(System.Web.HttpContext,System.Web.HttpCookie)">
+            <summary>
+            Removes the cookie from the browser by setting it's expiry time to a date
+            in the past.
+            </summary>
+            <param name="context">The context of the request.</param>
+            <param name="alreadyAccessed">The already accessed cookie.</param>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Redirection.RedirectModule.SetResponseCookie(System.Web.HttpContext,System.Web.HttpCookie)">
+            <summary>
+            Sets the response cookie expiry time.
+            </summary>
+            <param name="context">The context of the request.</param>
+            <param name="alreadyAccessed">The already accessed cookie.</param>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Redirection.RedirectModule.RecordFirstTime(System.Web.HttpContext)">
+            <summary>
+            Records in the session (if present) and in a cookie
+            the requesting devices first request. This ensures subsequent calls
+            to IsFirstTime return the correct value.
+            </summary>
+            <param name="context">The context of the request.</param>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Redirection.RedirectModule.IsInArray(System.String,System.String[])">
+            <summary>
+            Checks the value is contained in the array.
+            </summary>
+            <param name="value">Value string.</param>
+            <param name="array">Array of strings to be checked against.</param>
+            <returns>True if the string is present. False if not.</returns>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Redirection.RedirectModule.IsPageType(System.Type)">
+            <summary>
+            Checks the array of page types to determine if the type past into the method
+            is in the array. Also checks basetypes where available.
+            </summary>
+            <param name="type">The type to be checked.</param>
+            <returns>True is the request relates to a page.</returns>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Redirection.RedirectModule.IsPage(System.Web.HttpContext)">
+            <summary>
+            Returns true if the request relates to a handler that relates to web page.
+            </summary>
+            <param name="context">The context associated with the Http request.</param>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Redirection.RedirectModule.IsMobileType(System.Type)">
+            <summary>
+            Checks the type to see if it's one that matches a mobile web page.
+            </summary>
+            <param name="type">Type of class to check.</param>
+            <returns>True if the type is a mobile web page.</returns>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Redirection.RedirectModule.IsMobileRegexPage(System.Web.HttpRequest)">
+            <summary>
+            Checks to see if the regular expression provided matches either the
+            relative executing path or the Url of the request.
+            </summary>
+            <param name="request">The HttpRequest to be checked.</param>
+            <returns>True if this request should be considered associated with
+            a page designed for mobile.</returns>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Redirection.RedirectModule.IsMobilePage(System.Web.HttpContext)">
+            <summary>
+            Returns true if the current handler relates to a mobile web page.
+            </summary>
+            <param name="context">The context associated with the Http request.</param>
+        </member>
+        <member name="F:FiftyOne.Foundation.Mobile.Detection.DetectorModule._lock">
+            <summary>
+            Used to lock the initialisation of static fields.
+            </summary>
+        </member>
+        <member name="F:FiftyOne.Foundation.Mobile.Detection.DetectorModule._initialised">
+            <summary>
+            Indicates if static initialisation has been completed.
+            </summary>
+        </member>
+        <member name="F:FiftyOne.Foundation.Mobile.Detection.DetectorModule._clientTargets">
+            <summary>
+            Collection of client targets used by the application with the key
+            field representing the alias and the value the useragent.
+            </summary>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.DetectorModule.Init(System.Web.HttpApplication)">
+            <summary>
+            Initiliases the HttpMobile registering this modules interest in
+            all new requests and handler mappings.
+            </summary>
+            <param name="application">HttpApplication object for the web application.</param>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.DetectorModule.StaticFieldInit">
+            <summary>
+            Initialises the static fields.
+            </summary>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.DetectorModule.SetPreferredRenderingType(System.Object,System.EventArgs)">
+            <summary>
+            If the handler is a MobilePage then ensure a compaitable textwriter will be used.
+            </summary>
+            <param name="sender">HttpApplication related to the request.</param>
+            <param name="e">EventArgs related to the event. Not used.</param>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.DetectorModule.SetPagePreIntClientTargets(System.Object,System.EventArgs)">
+            <summary>
+            Ensures the PreInit event of the page is processed by the module
+            to override capabilities associated with a client target specification.
+            </summary>
+            <param name="sender">HttpApplication related to the request.</param>
+            <param name="e">EventArgs related to the event. Not used.</param>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.DetectorModule.OnBeginRequest(System.Object,System.EventArgs)">
+            <summary>
+            Override the capabilities assigned to the request.
+            </summary>
+            <param name="sender">HttpApplication related to the request.</param>
+            <param name="e">EventArgs related to the event. Not used.</param>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.DetectorModule.OnPreInitPage(System.Object,System.EventArgs)">
+            <summary>
+            Before the page initialises make sure the latest browser capabilities
+            are available if a client target has been specified.
+            </summary>
+            <param name="sender">Page associated with the request.</param>
+            <param name="e">Event arguements.</param>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.DetectorModule.GetClientTargetsSection">
+            <summary>
+            Gets the client target section from the configuration if the security level
+            allows this method to be used. Will fail in medium trust environments.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.DetectorModule.GetClientTargets">
+            <summary>
+            Gets a list of the client target names configured for the application. Will return null
+            if either target names are not defined or unrestricted security access is not available.
+            </summary>
+            <returns>A list of client target names.</returns>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.DetectorModule.AddNewCapabilities(System.Web.HttpBrowserCapabilities,System.Collections.IDictionary)">
+            <summary>
+            Adds the capabilities provided into the existing dictionary of capabilities
+            already assigned by Microsoft.
+            </summary>
+            <param name="currentCapabilities"></param>
+            <param name="overrideCapabilities"></param>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.DetectorModule.OverrideCapabilities(System.Web.HttpContext)">
+            <summary>
+            If this device is not already using our mobile capabilities
+            then check to see if it's a mobile. If we think it's a mobile
+            or .NET thinks it's not the same type of device then override
+            the current capabilities.
+            </summary>
+            <param name="context"><see cref="T:System.Web.HttpContext"/> to be tested and overridden.</param>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.DetectorModule.OverrideCapabilities(System.Web.HttpRequest,System.String)">
+            <summary>
+            Adds new capabilities for the useragent provided rather than the request details
+            provided in the request paramters.
+            </summary>
+            <param name="request">The request who's capabilities collection should be updated.</param>
+            <param name="userAgent">The useragent string of the device requiring capabilities to be added.</param>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.DetectorModule.Dispose">
+            <summary>
+            Records the module being disposed if debug enabled.
+            </summary>
+        </member>
+        <member name="M:FiftyOne.Log.Run(System.Object)">
+            <summary>
+            The main loop for the log file thread.
+            </summary>
+        </member>
+        <member name="M:FiftyOne.Log.IsQueueEmpty">
+            <summary>
+            Returns true if the message queue is empty.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FiftyOne.Log.Write(System.String)">
+            <summary>
+            Makes sure the logging thread is running and then writes the message
+            to the queue of messages to be serviced.
+            </summary>
+            <param name="message">The message to be written to the log file.</param>
+        </member>
+        <member name="P:FiftyOne.Log.LogFile">
+            <summary>
+            Returns the full path to the file to be written to.
+            </summary>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.Handlers.BoltHandler.CanHandle(System.String)">
+            <summary>
+            Check for the presence of bolt in addition to the base safari checks.
+            </summary>
+            <param name="userAgent"></param>
+            <returns></returns>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Detection.Wurfl.Handlers.BoltHandler.Confidence">
+            <summary>
+            Provides a higher degree of confidence because only devices in the "generic_bolt_ver1"
+            branch of the device tree are available for matching and checks are performed for
+            version of the bolt browser.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Detection.Wurfl.Handlers.BoltHandler.SupportedRootDeviceIds">
+            <summary>
+            An array of supported root devices that devices from the WURFL
+            data file need to be children of to be valid for this handler.
+            </summary>
+        </member>
+        <member name="T:FiftyOne.Foundation.Mobile.Configuration.LocationElement">
+            <summary>
+            Contains information for all location specified in the <c>web.config</c> file.
+            </summary>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Configuration.LocationElement.CreateNewElement">
+            <summary>
+            Creates a new instance of <see cref="T:FiftyOne.Foundation.Mobile.Configuration.FilterElement"/>.
+            </summary>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Configuration.LocationElement.GetElementKey(System.Configuration.ConfigurationElement)">
+            <summary>
+            Add element to the base collection.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Configuration.LocationElement.Name">
+            <summary>
+            Sets the name of redirection
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Configuration.LocationElement.Url">
+            <summary>
+            Gets the url of the webpage
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Configuration.LocationElement.MatchExpression">
+            <summary>
+            A regular expression used to find macthing elements of the 
+            original URL associated with the request.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Configuration.LocationElement.Enabled">
+            <summary>
+            Gets or sets a value indicating whether this homepage should be used.
+            </summary>
+        </member>
+        <member name="T:FiftyOne.Foundation.Mobile.Detection.Strings">
+            <summary>
+            Rather than store a unique copy of every string held in the Wurfl file a list of strings
+            is used and the index of the string is held in the data classes.
+            </summary>
+        </member>
+        <member name="F:FiftyOne.Foundation.Mobile.Detection.Strings._index">
+            <summary>
+            Index containing the hashcode of the string as the index and either the index in the _values
+            list as the value or a list of values that match the hashcode. It is possible for several 
+            different values to share the same hashcode.
+            </summary>
+        </member>
+        <member name="F:FiftyOne.Foundation.Mobile.Detection.Strings._values">
+            <summary>
+            All the strings used in the Wurfl file are held in this stack.
+            </summary>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Strings.Add(System.String)">
+            <summary>
+            Adds a new string value to the list of Wurfl strings. If the value already exists
+            then it's index is returned. If it doesn't then a new entry is added.
+            </summary>
+            <param name="value">String value to add.</param>
+            <returns>Index of the string in the _values list. Used the Get method to retrieve the string value later.</returns>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Strings.Get(System.Int32)">
+            <summary>
+            Returns the string at the index position provided. If the index is
+            invalid then return null.
+            </summary>
+            <param name="index">Index of string required.</param>
+            <returns>String value at the specified index.</returns>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Strings.AddValue(System.String)">
+            <summary>
+            Adds a value to the list and returns it's index in the list.
+            </summary>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Strings.IndexOf(System.String,System.Int32)">
+            <summary>
+            Gets the index of the value and hashcode. The hashcode is provided
+            to avoid calculating when it already exists from the string.
+            </summary>
+            <param name="value">The value who's index is required from the list.</param>
+            <param name="hashcode">The hashcode of the value.</param>
+            <returns>The integer index of the string value in the list, otherwise -1.</returns>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Detection.Strings.Count">
+            <summary>
+            The number of items in the list.
+            </summary>
+        </member>
+        <member name="T:FiftyOne.Foundation.Mobile.Configuration.RedirectSection">
+            <summary>
+            Settings for automatic redirection of mobile devices.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Configuration.RedirectSection.Enabled">
+            <summary>
+            Returns true if the functionality of <see cref="T:FiftyOne.Foundation.Mobile.Configuration.RedirectSection"/> is enabled.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Configuration.RedirectSection.DevicesFile">
+            <summary>
+            A file used to store the details of devices that have previously accessed the web
+            site to determine if they're making a subsequent request. Needed to ensure 
+            multiple worker processes have a consistent view of previous activity. 
+            (Optional – random behaviour will be experienced if not specified on web sites
+            with more than one worker processes)
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Configuration.RedirectSection.Timeout">
+            <summary>
+            The number of minutes of inactivity that should occur before the requesting
+            device should be treated as making a new request to the web site for the
+            purposes of redirection. If the session is available the session timeout
+            will be used and override this value. (Optional - defaults to 20 minutes)
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Configuration.RedirectSection.FirstRequestOnly">
+            <summary>
+            If set to true only the first request received by the web site is redirected
+            to the mobileUrl when the site is accessed from a mobile device.
+            (Optional – defaults to true)
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Configuration.RedirectSection.OriginalUrlAsQueryString">
+            <summary>
+            This attribute is used when redirecting to a mobile home page.
+            If set to true the original URL will be encoded and set
+            as the query string for the <see cref="P:FiftyOne.Foundation.Mobile.Configuration.RedirectSection.MobileHomePageUrl"/>.
+            (Optional – defaults to false)
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Configuration.RedirectSection.MobileHomePageUrl">
+            <summary>
+            Previously mobileRedirectUrl under the mobile/toolkit element. A url to direct 
+            mobile devices to instead of the normal web sites landing page. (Optional)
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Configuration.RedirectSection.MobilePagesRegex">
+            <summary>
+            A regular expression used to identify pages on the web site that are designed 
+            for mobile phones. Any page that derives from System.Web.UI.MobileControls.MobilePage 
+            will automatically be treated as a mobile page. Use this attribute to tell redirection
+            about mobile pages derived from other base classes such as System.Web.UI.Page.
+            The value is evaluated against the HttpRequests AppRelativeCurrentExecutionFilePath and
+            Url properties.
+            Redirection needs to be aware of mobile pages so that requests to these pages can be
+            ignored. (Optional)
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Configuration.RedirectSection.Locations">
+            <summary>
+            An optional collection of homepages that uses regular expressions to see if a mobile 
+            device should be redirected to one of these pages. A device is defined in terms of 
+            the manufacturer and model.
+            </summary>
+        </member>
+        <member name="T:FiftyOne.Foundation.Mobile.Detection.Wurfl.Configuration.PatchesCollection">
+            <summary>
+            A collection of <see cref="T:FiftyOne.Foundation.Mobile.Detection.Wurfl.Configuration.PatchesCollection"/>. This class cannot be inherited.
+            </summary>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.Configuration.PatchesCollection.CreateNewElement">
+            <summary>
+            Creates a new instance of <see cref="T:FiftyOne.Foundation.Mobile.Detection.Wurfl.Configuration.PatchesCollection"/>.
+            </summary>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.Configuration.PatchesCollection.GetElementKey(System.Configuration.ConfigurationElement)">
+            <summary>
+            Gets the element key value.
+            </summary>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.Configuration.PatchesCollection.BaseAdd(System.Configuration.ConfigurationElement)">
+            <summary>
+            Add element to the base collection.
+            </summary>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.Configuration.PatchesCollection.IndexOf(FiftyOne.Foundation.Mobile.Detection.Wurfl.Configuration.PatchConfigElement)">
+            <summary>
+            Gets the index of the specific element inside the collection.
+            </summary>
+            <param name="wurflPatch">The element being sought.</param>
+            <returns>The index of the element.</returns>
+            <exception cref="T:System.ArgumentNullException">Thrown if <paramref name="wurflPatch"/> equals null.</exception>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.Configuration.PatchesCollection.Add(FiftyOne.Foundation.Mobile.Detection.Wurfl.Configuration.PatchConfigElement)">
+            <summary>
+            Add element into the collection.
+            </summary>
+            <param name="wurflPatch">The patch to be added to the collection.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if <paramref name="wurflPatch"/> equals null.</exception>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.Configuration.PatchesCollection.Remove(FiftyOne.Foundation.Mobile.Detection.Wurfl.Configuration.PatchConfigElement)">
+            <summary>
+            Removes a <see cref="T:System.Configuration.ConfigurationElement"/> from the collection.
+            </summary>
+            <param name="wurflPatch">The patch to be removed from the collection.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if <paramref name="wurflPatch"/> equals null.</exception>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.Configuration.PatchesCollection.RemoveAt(System.Int32)">
+            <summary>
+            Removes a <see cref="T:System.Configuration.ConfigurationElement"/> at the specified index location.
+            </summary>
+            <param name="index">The index of the patch to remove from the collection.</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">Thrown if <paramref name="index"/> is less than zero or bigger than the number of indexes on the collections.</exception>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.Configuration.PatchesCollection.Remove(System.String)">
+            <summary>
+            Removes a <see cref="T:System.Configuration.ConfigurationElement"/> from the collection.
+            </summary>
+            <param name="name">The name of the patch to remove from the collection.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown if <paramref name="name"/> equals null.</exception>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.Configuration.PatchesCollection.Clear">
+            <summary>
+            Removes all configuration elements from the collection.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Detection.Wurfl.Configuration.PatchesCollection.Item(System.Int32)">
+            <summary>
+            Gets or sets the <see cref="T:FiftyOne.Foundation.Mobile.Detection.Wurfl.Configuration.PatchConfigElement"/>.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Detection.Wurfl.Configuration.PatchesCollection.Item(System.String)">
+            <summary>
+            Gets or sets the <see cref="T:FiftyOne.Foundation.Mobile.Detection.Wurfl.Configuration.PatchConfigElement"/>.
+            </summary>        
+        </member>
+        <member name="T:FiftyOne.Foundation.Mobile.Configuration.UrlCollection">
+            <summary>
+            A collection of <see cref="T:FiftyOne.Foundation.Mobile.Configuration.UrlCollection"/>. This class cannot be inherited.
+            </summary>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Configuration.UrlCollection.CreateNewElement">
+            <summary>
+            Creates a new instance of <see cref="T:FiftyOne.Foundation.Mobile.Configuration.UrlElement"/>.
+            </summary>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Configuration.UrlCollection.GetElementKey(System.Configuration.ConfigurationElement)">
+            <summary>
+            Gets the element key value.
+            </summary>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Configuration.UrlCollection.BaseAdd(System.Configuration.ConfigurationElement)">
+            <summary>
+            Add element to the base collection.
+            </summary>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Configuration.UrlCollection.IndexOf(FiftyOne.Foundation.Mobile.Configuration.UrlElement)">
+            <summary>
+            Gets the index of the specific element inside the collection.
+            </summary>
+            <param name="element">a <see cref="T:FiftyOne.Foundation.Mobile.Configuration.UrlElement"/> to locate in the the collection.</param>
+            <returns>The index of the element in the collection.</returns>
+            <exception cref="T:System.ArgumentNullException"> thrown if <paramref name="element"/> equals null.</exception>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Configuration.UrlCollection.Add(FiftyOne.Foundation.Mobile.Configuration.UrlElement)">
+            <summary>
+            Add element into the collection.
+            </summary>
+            <param name="element">a <see cref="T:FiftyOne.Foundation.Mobile.Configuration.UrlElement"/> to add to the collection.</param>
+            <exception cref="T:System.ArgumentNullException"> thrown if <paramref name="element"/> equals null.</exception>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Configuration.UrlCollection.Remove(FiftyOne.Foundation.Mobile.Configuration.UrlElement)">
+            <summary>
+            Removes a <see cref="T:FiftyOne.Foundation.Mobile.Configuration.UrlElement"/> from the collection.
+            </summary>
+            <param name="element">a <see cref="T:FiftyOne.Foundation.Mobile.Configuration.UrlElement"/> to remove from the collection.</param>
+            <exception cref="T:System.ArgumentNullException"> thrown if <paramref name="element"/> equals null.</exception>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Configuration.UrlCollection.RemoveAt(System.Int32)">
+            <summary>
+            Removes a <see cref="T:FiftyOne.Foundation.Mobile.Configuration.UrlElement"/> at the specified index location.
+            </summary>
+            <param name="index">Index of the element to remove in the collection.</param>
+            <exception cref="T:System.ArgumentOutOfRangeException">Thrown if <paramref name="index"/> is less than zero or bigger than the number of indexes on the collections.</exception>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Configuration.UrlCollection.Remove(System.String)">
+            <summary>
+            Removes a <see cref="T:System.Configuration.ConfigurationElement"/> from the collection.
+            </summary>
+            <param name="url">Url of the element in the collection to remove.</param>
+            <exception cref="T:System.ArgumentNullException"> thrown if <paramref name="url"/> equals null.</exception>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Configuration.UrlCollection.Clear">
+            <summary>
+            Removes all configuration elements from the collection.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Configuration.UrlCollection.Item(System.Int32)">
+            <summary>
+            Gets or sets the <see cref="T:FiftyOne.Foundation.Mobile.Configuration.UrlElement"/>.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Configuration.UrlCollection.Item(System.String)">
+            <summary>
+            Gets or sets the <see cref="T:FiftyOne.Foundation.Mobile.Configuration.UrlElement"/>.
+            </summary>        
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.WurflNewDevice.#cctor">
+            <summary>
+            Sets the enabled state of the class.
+            </summary>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.WurflNewDevice.RecordNewDevice(System.Web.HttpRequest)">
+            <summary>
+            Record the client in the new devices server if specified to avoid
+            needing to use this method to match the useragent to the device
+            in the future. Create another thread with low priority to reduce
+            any impacting of recording this on the active web request.
+            </summary>
+            <param name="request">The request used to indentify the new device.</param>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Detection.Wurfl.WurflNewDevice.Enabled">
+            <summary>
+            Returns if the new device recording functionality is enabled.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Detection.Wurfl.WurflNewDevice.NewDeviceData.Content">
+            <summary>
+            XML content containing details about the client device.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Detection.Wurfl.WurflNewDevice.NewDeviceData.UserAgent">
+            <summary>
+            Returns the useragent string of the requesting device.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Detection.Wurfl.WurflNewDevice.NewDeviceData.IsLocal">
+            <summary>
+            Returns true if the content relates to a local client.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Detection.Wurfl.WurflNewDevice.NewDeviceData.Ignore">
+            <summary>
+            Returns true if the device should be ignored based on 
+            settings in the request header.
+            </summary>
+        </member>
+        <member name="T:FiftyOne.Foundation.Mobile.Detection.Wurfl.Matchers.Version.Matcher">
+            <summary>
+            Finds the devices that's version segments are closest to the string being sought.
+            </summary>
+        </member>
+        <member name="T:FiftyOne.Foundation.Mobile.Detection.Wurfl.Matchers.Version.Matcher.DeviceResult">
+            <summary>
+            The score for each segment associated with the device being matched.
+            </summary>
+        </member>
+        <member name="T:FiftyOne.Foundation.Mobile.Detection.Wurfl.Matchers.Version.Matcher.SegmentScore">
+            <summary>
+            Stores the score for each segment found.
+            </summary>
+        </member>
+        <member name="T:FiftyOne.Foundation.Mobile.Redirection.RequestHistory">
+            <summary>
+            Class used to record details of devices that have already accessed the
+            mobile web site to determine if the request is the 1st one or a 
+            subsequent one.
+            </summary>
+        </member>
+        <member name="F:FiftyOne.Foundation.Mobile.Redirection.RequestHistory._redirectTimeout">
+            <summary>
+            The number of minutes that should elapse before the record of 
+            previous access for the device should be removed from all
+            possible storage mechanisims.
+            </summary>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Redirection.RequestHistory.IsPresent(System.Web.HttpRequest)">
+            <summary>
+            Checks to find out if the device associated with the HttpRequest
+            has already been seen by the application. Always returns false
+            if the sync file has not been specified.
+            </summary>
+            <param name="request">HttpRequest to be checked.</param>
+            <returns>True if the device associated with the request has been seen.</returns>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Redirection.RequestHistory.Add(System.Web.HttpRequest)">
+            <summary>
+            Adds this device request to the previous devices list.
+            </summary>
+            <param name="request">HttpRequest of the device.</param>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Redirection.RequestHistory.Remove(System.Web.HttpRequest)">
+            <summary>
+            Removes this device request from the previous devices list.
+            </summary>
+            <param name="request">HttpRequest of the device.</param>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Redirection.RequestHistory.RefreshSyncFile">
+            <summary>
+            Checks to determine if new records need to be processed and if so
+            loads them into memory.
+            </summary>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Redirection.RequestHistory.Add(System.Object)">
+            <summary>
+            Adds the current request record to the file containing details of
+            all the available requests.
+            </summary>
+            <param name="record">Record of the request to be added.</param>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Redirection.RequestHistory.OpenSyncFilePath(System.IO.FileMode,System.IO.FileAccess,System.IO.FileShare)">
+            <summary>
+            Opens the file for read and if an exception is thrown will return null rather
+            than the exception.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Redirection.RequestHistory.CheckIfServiceRequired">
+            <summary>
+            If the last time the devices file was serviced to remove old entries
+            is older than 1 minute start a thread to service the devices file and 
+            remove old entries. If the redirect timeout is 0 indicating infinite
+            then nothing should be purged.
+            </summary>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Redirection.RequestHistory.ServiceRequestHistory(System.Object)">
+            <summary>
+            Removes entries from the memory version and sync file that
+            are older than the purgeDate specified.
+            </summary>
+            <param name="purgeDate">
+            Date as a long used to determine if a request history 
+            record is old and can be removed.
+            </param>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Redirection.RequestHistory.ReadRecords(System.IO.FileStream,System.Int64)">
+            <summary>
+            Read the records that should be retained in the sync file.
+            </summary>
+            <param name="stream">Stream for the sync file.</param>
+            <param name="purgeDate">Date before which records should be removed.</param>
+            <returns></returns>
+        </member>
+        <member name="T:FiftyOne.Foundation.Mobile.Redirection.RequestHistory.PreviousDevices">
+            <summary>
+            Contains details of the previous devices held in the request history.
+            </summary>
+        </member>
+        <member name="T:FiftyOne.Foundation.Mobile.Redirection.RequestHistory.RequestRecord">
+            <summary>
+            Class used to convert a HttpRequest into a single long value that is
+            almost unique for the requesting device. Two devices that share the same
+            external IP address and HTTP headers will calculate to the same long value
+            so it may not always be unique. The number of handsets that fall into this
+            category should be sufficiently small enough for it not to present a 
+            practical problem.
+            The date and time the request was received is also recorded to enable 
+            out of date records to be removed from the list.
+            </summary>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Redirection.RequestHistory.RequestRecord.#ctor">
+            <summary>
+            Creates a new empty instance of <see cref="T:FiftyOne.Foundation.Mobile.Redirection.RequestHistory.RequestRecord"/> class.
+            </summary>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Redirection.RequestHistory.RequestRecord.#ctor(FiftyOne.Foundation.Mobile.Redirection.RequestHistory.RequestRecord)">
+            <summary>
+            Constructs a new instance of <see cref="T:FiftyOne.Foundation.Mobile.Redirection.RequestHistory.RequestRecord"/> class.
+            Copies the values of the <see cref="T:FiftyOne.Foundation.Mobile.Redirection.RequestHistory.RequestRecord"/> provided to
+            the new instance.
+            </summary>
+            <param name="recordToCopy"></param>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Redirection.RequestHistory.RequestRecord.#ctor(System.Web.HttpRequest)">
+            <summary>
+            If the IP address is IPv4 (4 bytes) then use the ip address as the high order
+            bytes of the value and the hashcode as the low order bytes.
+            If the IP address is IPv6 (8 bytes) then covert the bytes to a 64 bit
+            integer. 
+            If anything else which we can't image use a hashcode of the string value.
+            </summary>
+            <param name="request"></param>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Redirection.RequestHistory.RequestRecord.SetHashCode(System.Byte[],System.Web.HttpRequest)">
+            <summary>
+            Adds the hashcode of the relevent header fields as the low order
+            bytes of the array.
+            </summary>
+            <param name="buffer">Buffer used to set the bytes.</param>
+            <param name="request">HttpRequest to calculate a hashcode from.</param>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Redirection.RequestHistory.RequestRecord.CompareTo(System.Object)">
+            <summary>
+            Compares one request to another to determine if they are the same.
+            </summary>
+            <param name="obj">The object being compared.</param>
+            <returns>If the object contains the same value as this instance.</returns>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Redirection.RequestHistory.RequestRecord.Key">
+            <summary>
+            The unique key for the device.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Redirection.RequestHistory.RequestRecord.LastActiveDate">
+            <summary>
+            The date and device was last seen as active expressed 
+            as a long value.
+            </summary>
+        </member>
+        <member name="T:FiftyOne.Foundation.Mobile.Detection.FiftyOneBrowserCapabilities">
+            <summary>
+            The this[] property has been changed to also check the wurfl capabilities
+            before returning a value if the capability has not been found in the 
+            standard collection.
+            </summary>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.FiftyOneBrowserCapabilities.#ctor(System.Web.HttpBrowserCapabilities,System.Collections.IDictionary)">
+            <summary>
+            Constructs an instance of <cref see="FiftyOneBrowserCapabilities"/>
+            </summary>
+            <param name="currentCapabilities">Capabilities provided by Microsoft.</param>
+            <param name="overrideCapabilities">New capabilities provided by 51Degrees.mobi. Can not be null.</param>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Detection.FiftyOneBrowserCapabilities.WurflCapabilities">
+            <summary>
+            Returns the WurflCapabilities list if it exists. It should
+            always exist if this class is being used.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Detection.FiftyOneBrowserCapabilities.Item(System.String)">
+            <summary>
+            Returns the value for the capability key from initially the standard
+            collection of capabilities provided by Microsoft. If a value is not
+            found then WURFL is checked.
+            </summary>
+            <param name="key">The capability key being sought.</param>
+            <returns>The value of the key, otherwise null.</returns>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Detection.Wurfl.Handlers.FirefoxDesktopHandler.Confidence">
+            <summary>
+            Provides a higher degree of confidence because only devices in the "firefox"
+            branch of the device tree are available for matching.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Detection.Wurfl.Handlers.FirefoxDesktopHandler.SupportedRootDeviceIds">
+            <summary>
+            An array of supported root devices that devices from the WURFL
+            data file need to be children of to be valid for this handler.
+            </summary>
+        </member>
+        <member name="F:FiftyOne.EventLog._sync">
+            <summary>
+            Used to lock during the creation of the log level parameter and instance.
+            </summary>
+        </member>
+        <member name="F:FiftyOne.EventLog._instance">
+            <summary>
+            An instance of the event log.
+            </summary>
+        </member>
+        <member name="F:FiftyOne.EventLog._logLevel">
+            <summary>
+            Set to minus 1 to ensure value loaded correctly from web.config
+            file when the application starts.
+            </summary>
+        </member>
+        <member name="F:FiftyOne.EventLog._processId">
+            <summary>
+            The process id for the application.
+            </summary>
+        </member>
+        <member name="F:FiftyOne.EventLog._logFile">
+            <summary>
+            The file name for the log file.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.EventLog.LogFile">
+            <summary>
+            If a log file section has been added to the web.config
+            then return the log file path specified.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Detection.Wurfl.Handlers.AndriodHandler.Confidence">
+            <summary>
+            Provides a higher degree of confidence because only devices in the "firefox"
+            branch of the device tree are available for matching.
+            </summary>
+        </member>
+        <member name="T:FiftyOne.Foundation.Mobile.MobileException">
+            <summary>
+            <para>
+            The generic Exception class for all exceptions generated from the Mobile
+            Toolkit.
+            </para>
+            </summary>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.MobileException.#ctor">
+            <summary>
+            Initializes a new instance of <see cref="T:FiftyOne.Foundation.Mobile.MobileException"/>.
+            </summary>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.MobileException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of <see cref="T:FiftyOne.Foundation.Mobile.MobileException"/>.
+            </summary>
+            <param name="message">The human readable message explaining the exception.</param>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.MobileException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of <see cref="T:FiftyOne.Foundation.Mobile.MobileException"/>.
+            </summary>
+            <param name="message">The human readable message explaining the exception.</param>
+            <param name="innerException">The exception that caused the new one.</param>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.MobileException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Initializes a new instance of <see cref="T:FiftyOne.Foundation.Mobile.MobileException"/>.
+            </summary>
+        </member>
+        <member name="T:FiftyOne.Foundation.Mobile.Detection.Wurfl.MobileCapabilities">
+            <summary>
+            Mobile capabilities populated using the WURFL data source.
+            </summary>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.MobileCapabilities.SetStaticValues(System.Collections.IDictionary)">
+            <summary>
+            Sets static capabilities used by mobile controls.
+            </summary>
+            <param name="capabilities">Dictionary of capabilities to be changed.</param>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.MobileCapabilities.CreateWurflCapabilities(FiftyOne.Foundation.Mobile.Detection.Wurfl.DeviceInfo)">
+            <summary>
+            Creates a SortedList of capability names and values for the device.
+            </summary>
+            <param name="device"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.MobileCapabilities.AddWurflCapabilityNames(System.Collections.Generic.List{System.Int32},FiftyOne.Foundation.Mobile.Detection.Wurfl.DeviceInfo)">
+            <summary>
+            Adds capabilitiy names associated with the device to the list
+            of capability strings. If a fallback device is specified this
+            devices capability names are also added until there is no further
+            fallback device.
+            </summary>
+            <param name="names">The list of capability name indexes.</param>
+            <param name="device">The device who's capabilities should be added.</param>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.MobileCapabilities.Enhance(System.Collections.IDictionary,System.Collections.IDictionary,FiftyOne.Foundation.Mobile.Detection.Wurfl.DeviceInfo)">
+            <summary>
+            Updates the capabilities used by Microsoft's implementation of the
+            HttpBrowserCapabilities class to control the property values it
+            returns. Only properties exposed by FiftyOneBrowserCapabilities are overriden
+            by this method.
+            </summary>
+            <param name="capabilities">Dictionary of capabilities to be enhanced.</param>
+            <param name="currentCapabilities">Dictionary of existing capabilities for the device.</param>
+            <param name="device">Device to use for enhancements.</param>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.MobileCapabilities.SetVersion(System.Collections.IDictionary,System.String)">
+            <summary>
+            Sets the version using a regular expression to find numeric segments of
+            the provided version string.
+            </summary>
+            <param name="capabilities"></param>
+            <param name="version"></param>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.MobileCapabilities.GetSupportsCallback(FiftyOne.Foundation.Mobile.Detection.Wurfl.DeviceInfo)">
+            <summary>
+            Returns true if the device supports callbacks from the browser
+            using XMLHttpRequest using any type of method.
+            </summary>
+            <param name="device">The device to be checked.</param>
+            <returns>True if XMLHttpRequest is supported.</returns>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.MobileCapabilities.GetJavascriptSupport(FiftyOne.Foundation.Mobile.Detection.Wurfl.DeviceInfo)">
+            <summary>
+            If the wurfl database indicates javascript support then return true.
+            </summary>
+            <param name="device">The device to be checked.</param>
+            <returns>True if javascript is supported.</returns>
+        </member>
+        <member name="T:FiftyOne.Cache`1">
+            <summary>
+            Used to create a cache object of type Value with a string key.
+            </summary>
+            <typeparam name="Value">Type of object to hold in the cache.</typeparam>
+        </member>
+        <member name="T:FiftyOne.Cache`2">
+            <summary>
+            A cache object used to store key value pairs until a timeout has expired.
+            </summary>
+            <typeparam name="Key">Type of the key for the class.</typeparam>
+            <typeparam name="Value">Type of the value for the class.</typeparam>
+        </member>
+        <member name="M:FiftyOne.Cache`2.#ctor(System.Int32)">
+            <summary>
+            Constructs the cache clearing key value pairs after the timeout period 
+            specified in minutes.
+            </summary>
+            <param name="timeout">Number of minutes to hold items in the cache for.</param>
+        </member>
+        <member name="M:FiftyOne.Cache`2.Remove(`0)">
+            <summary>
+            Removes the specified key from the cache.
+            </summary>
+            <param name="key">Key to be removed.</param>
+        </member>
+        <member name="M:FiftyOne.Cache`2.GetTryParse(`0,`1@)">
+            <summary>
+            If the key exists in the cache then provide the value in the
+            value parameter.
+            </summary>
+            <param name="key">Key of the value to be retrieved.</param>
+            <param name="value">Set to the associated value if found.</param>
+            <returns>True if the key was found in the list, otherwise false.</returns>
+        </member>
+        <member name="M:FiftyOne.Cache`2.Contains(`0)">
+            <summary>
+            Determines if the key is available in the cache.
+            </summary>
+            <param name="key">Key to be checked.</param>
+            <returns>True if the key is found, otherwise false.</returns>
+        </member>
+        <member name="M:FiftyOne.Cache`2.CheckIfServiceRequired">
+            <summary>
+            If the time has passed the point another check of the cache is needed 
+            start a thread to check the cache.
+            </summary>
+        </member>
+        <member name="M:FiftyOne.Cache`2.ServiceCache(System.Object)">
+            <summary>
+            The main method of the thread to service the cache. Checks for old items
+            and removes them.
+            </summary>
+            <param name="purgeDate">The date before which items should be removed.</param>
+        </member>
+        <member name="P:FiftyOne.Cache`2.Item(`0)">
+            <summary>
+            Returns the value associated with the key.
+            </summary>
+            <param name="key">Key of the value being requested.</param>
+            <returns>Value or null if not found.</returns>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.Matchers.EditDistance.Matcher.Match(System.String,FiftyOne.Foundation.Mobile.Detection.Wurfl.Handlers.Handler)">
+            <summary>
+            Returns the closest match to the userAgent string from the queue of
+            possible values.
+            </summary>
+            <param name="userAgent">userAgent being matched</param>
+            <param name="handler">the handler associated with the matching request</param>
+            <returns>best match userAgent</returns>
+        </member>
+        <member name="T:FiftyOne.Foundation.Image.Support">
+            <summary>
+            Class contains static methods to support image management.
+            </summary>
+        </member>
+        <member name="M:FiftyOne.Foundation.Image.Support.InitColorTable">
+            <summary>
+            Initialises the colours lookup table.
+            </summary>
+        </member>
+        <member name="M:FiftyOne.Foundation.Image.Support.InitContentTypes">
+            <summary>
+            Populates the lookup table with context types.
+            </summary>
+        </member>
+        <member name="T:FiftyOne.Foundation.Image.Support.ColorsToBitsPerPixel">
+            <summary>
+            Used to convert colors to bits per pixel.
+            </summary>
+        </member>
+        <member name="F:FiftyOne.Foundation.Mobile.Detection.Factory._cache">
+            <summary>
+            Cache for mobile capabilities. Items are removed approx. 60 minutes after the last
+            time they were used.
+            </summary>
+        </member>
+        <member name="F:FiftyOne.Foundation.Mobile.Detection.Factory._lock">
+            <summary>
+            Lock used when 
+            </summary>
+        </member>
+        <member name="F:FiftyOne.Foundation.Mobile.Detection.Factory._mobileCapabilities">
+            <summary>
+            Used to obtain the mobile capabilities for the request or user agent string
+            from the device data source provided.
+            </summary>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Factory.Create(System.String)">
+            <summary>
+            Creates a new <see cref="P:FiftyOne.Foundation.Mobile.Detection.Factory.MobileCapabilities"/> class based on the useragent
+            string provided.
+            </summary>
+            <param name="userAgent">The useragent for the device.</param>
+            <returns></returns>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Factory.Create(System.Web.HttpRequest,System.Collections.IDictionary)">
+            <summary>
+            Creates a new <see cref="P:FiftyOne.Foundation.Mobile.Detection.Factory.MobileCapabilities"/> class based on the context
+            of the requesting device.
+            </summary>
+            <param name="request">HttpRequest from the device.</param>
+            <param name="currentCapabilities">Capabilities already determined by other sources.</param>
+            <returns>A new mobile capabilities</returns>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Detection.Factory.MobileCapabilities">
+            <summary>
+            Returns a single instance of the MobileCapabilities class used to provide
+            capabilities to enhance the request.
+            </summary>
+        </member>
+        <member name="T:FiftyOne.Foundation.Mobile.Detection.Wurfl.Configuration.PatchConfigElement">
+            <summary>
+            Defines configuration settings for wurfl patches. This class cannot be inherited.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Detection.Wurfl.Configuration.PatchConfigElement.Name">
+            <summary>
+            Gets or sets the name of the patch file. 
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Detection.Wurfl.Configuration.PatchConfigElement.FilePath">
+            <summary>
+            Gets or sets the patch file path.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Detection.Wurfl.Configuration.PatchConfigElement.Enabled">
+            <summary>
+            Gets or sets a value indicating whether this file patch should be used.
+            </summary>
+        </member>
+        <member name="T:FiftyOne.Foundation.Mobile.Detection.Wurfl.Matchers.Algorithms">
+            <summary>
+            Contains major matching algorithms used by the solution.
+            </summary>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.Matchers.Algorithms.EditDistance(System.String,System.String,System.Int32)">
+            <summary>
+            Measures the amount of difference between two strings using the Levenshtein 
+            Distance algorithm. This implementation uses a modified version of the pseudo
+            code found at http://en.wikipedia.org/wiki/Levenshtein_distance.
+            The logic has been modified to ignore string comparisions that will return
+            a value greater than the lowest one found so far. This significantly improves
+            performance as we can determine earlier if there is any point completing the 
+            calculation.
+            </summary>
+            <param name="str1">1st string to compare.</param>
+            <param name="str2">2nd string to compare.</param>
+            <param name="maxValue">The maximum value we're interested in. Anything higher can be ignored.</param>
+            <returns></returns>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Detection.Wurfl.Handlers.BlackBerryVersion6Handler.Confidence">
+            <summary>
+            Provides a higher degree of confidence because only devices in the "blackberry_generic_ver6"
+            branch of the device tree are available for matching.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Detection.Wurfl.Handlers.BlackBerryVersion6Handler.SupportedRootDeviceIds">
+            <summary>
+            An array of supported root devices that devices from the WURFL
+            data file need to be children of to be valid for this handler.
+            </summary>
+        </member>
+        <member name="T:FiftyOne.Foundation.Mobile.Detection.Wurfl.Provider">
+            <summary>
+            Represents all device data and capabilities.
+            </summary>
+        </member>
+        <member name="F:FiftyOne.Foundation.Mobile.Detection.Wurfl.Provider.StaticLock">
+            <summary>
+            Lock used to ensure only one thread can load the data.
+            </summary>
+        </member>
+        <member name="F:FiftyOne.Foundation.Mobile.Detection.Wurfl.Provider._defaultDevice">
+            <summary>
+            Stores the default device for the WURFL provider.
+            </summary>
+        </member>
+        <member name="F:FiftyOne.Foundation.Mobile.Detection.Wurfl.Provider._instance">
+            <summary>
+            The singleton instance of the Devices class.
+            </summary>
+        </member>
+        <member name="F:FiftyOne.Foundation.Mobile.Detection.Wurfl.Provider._cache">
+            <summary>
+            Cache for devices found via this class. Devices not used within 60 minutes will be
+            removed from the cache.
+            </summary>
+        </member>
+        <member name="F:FiftyOne.Foundation.Mobile.Detection.Wurfl.Provider._deviceIDs">
+            <summary>
+            Hashtable of all devices.
+            </summary>
+        </member>
+        <member name="F:FiftyOne.Foundation.Mobile.Detection.Wurfl.Provider._handlers">
+            <summary>
+            An array of handlers used to match devices.
+            </summary>
+        </member>
+        <member name="F:FiftyOne.Foundation.Mobile.Detection.Wurfl.Provider._useActualDeviceRoot">
+            <summary>
+            Set to true if use actual device root is set in the configuration.
+            </summary>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.Provider.#ctor">
+            <summary>
+            Creates an instance of Devices.
+            </summary>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.Provider.LoadSingleton">
+            <summary>
+            Creates a single instance of this class to be used by all
+            clients within the AppDomain.
+            </summary>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.Provider.InitHandlers">
+            <summary>
+            Loads all the handlers ready for future reference when
+            matching requests.
+            </summary>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.Provider.GetHandlers(FiftyOne.Foundation.Mobile.Detection.Wurfl.DeviceInfo)">
+            <summary>
+            Gets an array of handlers that will support the device information.
+            Device ids are used to determine if the handler supports the device
+            tree the requested device is within.
+            </summary>
+            <param name="device">Device information to find supporting handlers.</param>
+            <returns>A list of all handlers that can handle this device.</returns>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.Provider.GetHandlers(System.String)">
+            <summary>
+            Gets an array of handlers that will support the useragent string.
+            </summary>
+            <param name="userAgent">Useragent string associated with the HTTP request.</param>
+            <returns>A list of all handlers that can handle this device.</returns>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.Provider.GetHandlers(System.Web.HttpRequest)">
+            <summary>
+            Returns an array of handlers that will be supported by the request.
+            Is used when a request is available so that header fields other
+            than Useragent can also be used in matching. For example; the
+            Useragent Profile fields.
+            </summary>
+            <param name="request">HttpRequest object.</param>
+            <returns>An array of handlers able to match the request.</returns>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.Provider.GetHandlers(System.Byte@,System.Collections.Generic.List{FiftyOne.Foundation.Mobile.Detection.Wurfl.Handlers.Handler},FiftyOne.Foundation.Mobile.Detection.Wurfl.Handlers.Handler)">
+            <summary>
+            Adds the handler to the list of handlers if the handler's confidence
+            is higher than or equal to the current highest handler confidence.
+            </summary>
+            <param name="highestConfidence">Highest confidence value to far.</param>
+            <param name="handlers">List of handlers.</param>
+            <param name="handler">Handler to be considered for adding.</param>
+            <returns>The new highest confidence value.</returns>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.Provider.Set(FiftyOne.Foundation.Mobile.Detection.Wurfl.DeviceInfo)">
+            <summary>
+            Records the device in the indexes used by the API. If a device
+            with the same ID already exists the previous one is overwritten.
+            The device is also assigned to a handler based on the useragent,
+            and supported root devices of the handler.
+            </summary>
+            <param name="device">The new device being added.</param>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.Provider.GetDeviceInfoFromID(System.String)">
+            <summary>
+            Using the unique device id returns the device. Very quick return
+            when the device id is known.
+            </summary>
+            <param name="deviceID">Unique internal ID of the device.</param>
+            <returns>DeviceInfo object.</returns>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.Provider.GetUserAgent(System.Web.HttpRequest)">
+            <summary>
+            Used to check other header fields in case a transcoder is being used
+            and returns the true useragent string.
+            </summary>
+            <param name="request">Contains details of the request.</param>
+            <returns>The useragent string to use for matching purposes.</returns>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.Provider.GetDeviceInfo(System.String)">
+            <summary>
+            Based on all the useragent string provided finds the
+            closed device if an exact match is not available.
+            </summary>
+            <param name="userAgent">Useragent string associated with the mobile device.</param>
+            <returns>The closest matching device.</returns>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.Provider.GetActualDeviceRootDeviceInfo(FiftyOne.Foundation.Mobile.Detection.Wurfl.DeviceInfo)">
+            <summary>
+            Loops through the fallback devices until an actual device root is found.
+            </summary>
+            <param name="device">The device to be checked.</param>
+            <returns>A device that is a root.</returns>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.Provider.GetDeviceInfo(System.Web.HttpRequest)">
+            <summary>
+            Based on all the HTTP request information available finds the
+            closed device if an exact match is not available. Uses fields
+            other than than useragent string to perform the match.
+            </summary>
+            <param name="request">HttpRequest associated with the requesting device.</param>
+            <returns>The closest matching device.</returns>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.Provider.GetDeviceInfo(System.String,FiftyOne.Foundation.Mobile.Detection.Wurfl.Handlers.Handler[])">
+            <summary>
+            Use the useragent to determine the closest matching device
+            from the handlers provided.
+            </summary>
+            <param name="userAgent">Useragent to be found.</param>
+            <param name="handlers">Handlers capable of finding devices for the request.</param>
+            <returns>The closest matching device or null if one can't be found.</returns>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.Provider.GetDeviceInfo(System.Web.HttpRequest,FiftyOne.Foundation.Mobile.Detection.Wurfl.Handlers.Handler[])">
+            <summary>
+            Use the HttpRequest fields to determine the closest matching device
+            from the handlers provided.
+            </summary>
+            <param name="request">HttpRequest object.</param>
+            <param name="handlers">Handlers capable of finding devices for the request.</param>
+            <returns>The closest matching device or null if one can't be found.</returns>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.Provider.RecordNewDevice(System.Web.HttpRequest)">
+            <summary>
+            Send the header details to 51Degrees.mobi if the configuration is enabled.
+            </summary>
+            <param name="request">Details about the request that was used to create the new device.</param>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Detection.Wurfl.Provider.Instance">
+            <summary>
+            Gets an instance of Provider.
+            </summary>
+            <remarks>
+            If none instance was yet created, tries to create a new one based on
+            the fiftyone.wurfl section on <c>web.config</c>.
+            </remarks>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Detection.Wurfl.Provider.DefaultDevice">
+            <summary>
+            Returns the default device for the API. Used if all other options
+            to identify the device has failed.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Detection.Wurfl.Provider.IsLoaded">
+            <summary>
+            Indicates if this instance of <see cref="T:FiftyOne.Foundation.Mobile.Detection.Factory"/> 
+            has finished loading data.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Detection.Wurfl.Provider.Count">
+            <summary>
+            The number of unique devices available following the loading of the
+            device data.
+            </summary>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.Matchers.ReducedInitialString.Matcher.Match(System.String,FiftyOne.Foundation.Mobile.Detection.Wurfl.Handlers.Handler,System.Int32)">
+            <summary>
+            Uses a reduced initial string matching routine to determine the results.
+            </summary>
+            <param name="userAgent">The useragent to be matched.</param>
+            <param name="handler">The handler performing the match.</param>
+            <param name="tolerance">The number of characters that need to be the same at the begining of the string for a match to have occurred.</param>
+            <returns>All the devices that matched.</returns>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.Wurfl.Matchers.ReducedInitialString.Matcher.Check(System.String,FiftyOne.Foundation.Mobile.Detection.Wurfl.DeviceInfo@,System.Int32@,FiftyOne.Foundation.Mobile.Detection.Wurfl.DeviceInfo)">
+            <summary>
+            Checks to see if the current device or the useragent string contain each
+            other at the start.
+            </summary>
+            <param name="userAgent">The useragent being searched for.</param>
+            <param name="bestMatch">Reference to the best matching device so far.</param>
+            <param name="maxInitialString">The maximum number of characters that have matched in the search so far.</param>
+            <param name="current">The current device being checked for a match.</param>
+        </member>
+        <member name="T:FiftyOne.Foundation.Mobile.Configuration.LocationsCollection">
+            <summary>
+            A collection of <see cref="T:FiftyOne.Foundation.Mobile.Configuration.LocationElement"/> objects. This class cannot be inherited.
+            </summary>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Configuration.LocationsCollection.CreateNewElement">
+            <summary>
+            Creates a new <see cref="T:FiftyOne.Foundation.Mobile.Configuration.LocationElement"/> for the collection
+            </summary>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Configuration.LocationsCollection.GetElementKey(System.Configuration.ConfigurationElement)">
+            <summary>
+            Returns element key from a <see cref="T:FiftyOne.Foundation.Mobile.Configuration.LocationElement"/>
+            </summary>
+        </member>
+        <member name="F:FiftyOne.Foundation.Mobile.Redirection.Constants.ORIGINAL_URL_KEY">
+            <summary>
+            The key in the Items collection of the requesting context used to
+            store the Url originally requested by the browser.
+            </summary>
+        </member>
+        <member name="F:FiftyOne.Foundation.Mobile.Redirection.Constants.LOCATION_URL_KEY">
+            <summary>
+            The key in the Items collection of the requesting context used to
+            store the home page Url for a possible redirection.
+            </summary>
+        </member>
+        <member name="F:FiftyOne.Foundation.Mobile.Redirection.Constants.ExpiryTime">
+            <summary>
+            Set the UTC date and time that details of the device should be removed
+            from all storage mechanisims.
+            </summary>
+        </member>
+        <member name="F:FiftyOne.Foundation.Mobile.Redirection.Constants.AlreadyAccessedCookieName">
+            <summary>
+            Used to indicate the device has already accessed the web site.
+            </summary>
+        </member>
+        <member name="F:FiftyOne.Foundation.Mobile.Redirection.Constants.MOBILE_PAGES">
+            <summary>
+            Full type names of classes representing mobile
+            page handlers.
+            </summary>
+        </member>
+        <member name="F:FiftyOne.Foundation.Mobile.Redirection.Constants.PAGES">
+            <summary>
+            Full type names of classes representing standard
+            page handlers.
+            </summary>
+        </member>
+        <member name="P:FiftyOne.Foundation.Mobile.Detection.Wurfl.Handlers.SamsungHandler.Confidence">
+            <summary>
+            Provides a higher degree of confidence so that this handler will not be overruled
+            by desktop handlers.
+            </summary>
+        </member>
+        <member name="F:FiftyOne.Foundation.Mobile.Detection.RequestHelper.LOCALHOSTS">
+            <summary>
+            IP Addresses of local host device.
+            </summary>
+        </member>
+        <member name="F:FiftyOne.Foundation.Mobile.Detection.RequestHelper.IgnoreHeaderFieldValues">
+            <summary>
+            The content of fields in this array should not be included in the request information
+            information sent to 51degrees.
+            </summary>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.RequestHelper.GetContent(System.Web.HttpRequest,System.Boolean)">
+            <summary>
+            Provides the content as XML for the http request.
+            </summary>
+            <param name="request">HttpRequest containing the required information.</param>
+            <param name="maximumDetail">The amount of detail to provided.</param>
+            <returns>XML string of request content.</returns>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.RequestHelper.IsLocalHost(System.Net.IPAddress)">
+            <summary>
+            Returns true if the request is from the local host IP address.
+            </summary>
+            <param name="address">The IP address to be checked.</param>
+            <returns>True if from the local host IP address.</returns>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.RequestHelper.WriteHostIP(System.Xml.XmlWriter)">
+            <summary>
+            Writes details about the host IP address.
+            </summary>
+            <param name="writer"></param>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.RequestHelper.IsBlankField(System.String)">
+            <summary>
+            Returns true if the field provided is one that should not have it's contents
+            sent to 51degrees for consideration a device matching piece of information.
+            </summary>
+            <param name="field">The name of the Http header field.</param>
+            <returns>True if the field should be passed as blank.</returns>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.RequestHelper.WriteAssembly(System.Xml.XmlWriter)">
+            <summary>
+            Writes details about the assembly to the output stream.
+            </summary>
+            <param name="writer"></param>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.RequestHelper.WriteHeader(System.Xml.XmlWriter,System.String)">
+            <summary>
+            Writer an XML header element with no value content.
+            </summary>
+            <param name="writer">Writer for the output stream.</param>
+            <param name="key">Name of the header.</param>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.RequestHelper.WriteHeaderValue(System.Xml.XmlWriter,System.String,System.String)">
+            <summary>
+            Writes an XML header element with a value using CData.
+            </summary>
+            <param name="writer">Writer for the output stream.</param>
+            <param name="key">Name of the header.</param>
+            <param name="value">Value of the header.</param>
+        </member>
+        <member name="M:FiftyOne.Foundation.Mobile.Detection.RequestHelper.GetXmlSettings">
+            <summary>
+            Provides the xml writer settings.
+            </summary>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
