@@ -30,7 +30,7 @@
       var userAgent = HttpContext.Current.Request.UserAgent;
       if (!string.IsNullOrEmpty(userAgent))
       {
-        return userAgent.IndexOf(str, StringComparison.OrdinalIgnoreCase) >= 0;
+        return Compare(str, userAgent);
       }
 
       return false;
