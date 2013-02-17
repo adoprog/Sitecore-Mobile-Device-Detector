@@ -3,14 +3,14 @@
   using Sitecore.Rules;
 
   /// <summary>
-  /// IsMobileCondition
+  /// IsTabletCondition
   /// </summary>
   /// <typeparam name="T"></typeparam>
-  public class IsMobileCondition<T> : BooleanPropertyCondition<T> where T : RuleContext
+  public class IsTabletCondition<T> : BooleanPropertyCondition<T> where T : RuleContext
   {
-    public IsMobileCondition()
+    public IsTabletCondition()
     {
-      this.Value = "IsMobile";
+      this.Value = "IsTablet";
     }
   }
 }

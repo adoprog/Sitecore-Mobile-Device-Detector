@@ -1,16 +1,21 @@
 ﻿namespace Sitecore.SharedSource.MobileDeviceDetector.Rules.Conditions
 {
-  using System.Web;
   using Sitecore.Diagnostics;
   using Sitecore.Rules;
   using Sitecore.Rules.Conditions;
 
   /// <summary>
-  /// UserAgentCondition
+  /// StringPropertyCondition
   /// </summary>
   /// <typeparam name="T"></typeparam>
-  public class UserAgentCondition<T> : StringOperatorCondition<T> where T : RuleContext
+  public class StringPropertyCondition<T> : StringOperatorCondition<T> where T : RuleContext
   {
+    /// <summary>
+    /// Gets or sets the property.
+    /// </summary>
+    /// <value>The property.</value>
+    public string Property { get; set; }
+    
     /// <summary>
     /// Gets or sets the value.
     /// </summary>
@@ -21,15 +26,16 @@
     /// Executes the specified rule context.
     /// </summary>
     /// <param name="ruleContext">The rule context.</param>
-    /// <returns>Returns value indicating whether Device UserAgent matches Value or not</returns>
+    /// <returns>Returns value indicating whether specified Device property matches Value or not</returns>
     protected override bool Execute(T ruleContext)
     {
       Assert.ArgumentNotNull(ruleContext, "ruleContext");
       string str = this.Value ?? string.Empty;
-      var userAgent = HttpContext.Current.Request.UserAgent;
-      if (!string.IsNullOrEmpty(userAgent))
+      var propertyValue = DeviceResolverHelper.GetStringProperty(this.Property);
+
+      if (!string.IsNullOrEmpty(propertyValue))
       {
-        return Compare(str, userAgent);
+        return Compare(str, propertyValue);
       }
 
       return false;

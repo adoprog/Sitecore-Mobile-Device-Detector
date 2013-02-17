@@ -1,4 +1,8 @@
-﻿namespace Sitecore.SharedSource.MobileDeviceDetector
+﻿using System;
+using Sitecore.Configuration;
+using Factory = FiftyOne.Foundation.Mobile.Detection.Factory;
+
+namespace Sitecore.SharedSource.MobileDeviceDetector
 {
   using System.Web;
   using Sitecore.Data;
@@ -30,7 +34,7 @@
     /// <returns>Resolved device</returns>
     public static DeviceItem ResolveDevice(Database database)
     {
-      if (!Sitecore.Configuration.Settings.GetBoolSetting("Sitecore.SharedSource.MobileDeviceDetector.Enabled", false))
+      if (!Settings.GetBoolSetting("Sitecore.SharedSource.MobileDeviceDetector.Enabled", false))
       {
         return null;
       }
@@ -67,7 +71,7 @@
     private static DeviceItem GetQueryStringDevice(Database database)
     {
       string queryString = WebUtil.GetQueryString("sc_device");
-      if (string.IsNullOrEmpty(queryString))
+      if (String.IsNullOrEmpty(queryString))
       {
         return null;
       }
@@ -90,7 +94,7 @@
     private static DeviceItem GetCookieDevice(Database database)
     {
       var deviceCookie = HttpContext.Current.Request.Cookies[DeviceCookieName];
-      if (deviceCookie != null && !string.IsNullOrEmpty(deviceCookie.Value))
+      if (deviceCookie != null && !String.IsNullOrEmpty(deviceCookie.Value))
       {
         DeviceItem item = database.Resources.Devices[deviceCookie.Value];
         return item;
@@ -133,6 +137,20 @@
       }
 
       return null;
+    }
+
+    public static bool GetBoolProperty(string propertyName)
+    {
+      var provider = Factory.ActiveProvider;
+      var device = provider.GetDeviceInfo(HttpContext.Current.Request.UserAgent);
+      return MainUtil.GetBool(device.GetFirstPropertyValue(propertyName), false);
+    }
+
+    public static string GetStringProperty(string propertyName)
+    {
+      var provider = Factory.ActiveProvider;
+      var device = provider.GetDeviceInfo(HttpContext.Current.Request.UserAgent);
+      return device.GetFirstPropertyValue(propertyName);
     }
   }
 }

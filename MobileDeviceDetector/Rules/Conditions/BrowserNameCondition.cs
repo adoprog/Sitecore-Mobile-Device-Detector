@@ -3,14 +3,14 @@
   using Sitecore.Rules;
 
   /// <summary>
-  /// IsMobileCondition
+  /// UserAgentCondition
   /// </summary>
   /// <typeparam name="T"></typeparam>
-  public class IsMobileCondition<T> : BooleanPropertyCondition<T> where T : RuleContext
+  public class BrowserNameCondition<T> : StringPropertyCondition<T> where T : RuleContext
   {
-    public IsMobileCondition()
+    public BrowserNameCondition()
     {
-      this.Value = "IsMobile";
+      this.Property = "BrowserName";
     }
   }
 }

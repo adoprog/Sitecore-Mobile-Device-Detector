@@ -6,11 +6,11 @@
   /// IsMobileCondition
   /// </summary>
   /// <typeparam name="T"></typeparam>
-  public class IsMobileCondition<T> : BooleanPropertyCondition<T> where T : RuleContext
+  public class IsEReaderCondition<T> : BooleanPropertyCondition<T> where T : RuleContext
   {
-    public IsMobileCondition()
+    public IsEReaderCondition()
     {
-      this.Value = "IsMobile";
+      this.Value = "IsEReader";
     }
   }
 }

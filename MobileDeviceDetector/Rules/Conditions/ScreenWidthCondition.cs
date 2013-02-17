@@ -20,7 +20,7 @@
     {
       Assert.ArgumentNotNull(ruleContext, "ruleContext");
       int width = HttpContext.Current.Request.Browser.ScreenPixelsWidth;
-      return Compare(MainUtil.GetInt(width, 1024));
+      return Compare(MainUtil.GetInt(width, 768));
     }
   }
 }

@@ -3,33 +3,15 @@
     <metadata>
       <PackageName>Mobile Device Detector</PackageName>
       <Author>Alexander Doroshenko</Author>
-      <Version>3.0.0</Version>
+      <Version>3.1</Version>
       <Revision />
       <License>
 	This module uses DLL's and data files from http://51degrees.codeplex.com
       </License>
       <Comment />
       <Attributes />
-      <Readme>After the installation, please update web.config file.
-
-1) Add the following to the &lt;configSections&gt;:
-
-&lt;sectionGroup name="fiftyOne"&gt;
-&lt;section name="log" type="FiftyOne.Foundation.Mobile.Configuration.LogSection, FiftyOne.Foundation" requirePermission="false" allowDefinition="Everywhere" restartOnExternalChanges="false" allowExeDefinition="MachineToApplication"/&gt;
-  
-&lt;section name="redirect"
-type="FiftyOne.Foundation.Mobile.Configuration.RedirectSection, FiftyOne.Foundation" requirePermission="false" allowDefinition="Everywhere" restartOnExternalChanges="false" allowExeDefinition="MachineToApplication"/&gt;
-  
-&lt;section name="detection" type="FiftyOne.Foundation.Mobile.Detection.Configuration.DetectionSection, FiftyOne.Foundation" requirePermission="false" allowDefinition="Everywhere" restartOnExternalChanges="false" allowExeDefinition="MachineToApplication"/&gt;
-&lt;/sectionGroup&gt;
-
-2) And the following to the &lt;configuration&gt; section:
-
-&lt;fiftyOne&gt;
-  &lt;log logFile="~/App_Data/Log.txt" logLevel="Info"/&gt;  
-  &lt;detection binaryFilePath="~/App_Data/51Degrees.mobi-Lite.dat" /&gt;
-&lt;/fiftyOne&gt;</Readme>
-      <Publisher>Alexander Doroshenko</Publisher>
+      <Readme />
+      <Publisher>Alexander Doroshenko http://sitecoresnippets.blogspot.com</Publisher>
       <PostStep />
       <PackageID />
     </metadata>
@@ -44,6 +26,7 @@ type="FiftyOne.Foundation.Mobile.Configuration.RedirectSection, FiftyOne.Foundat
         <x-item>/App_Data/51Degrees.mobi-Lite.dat</x-item>
         <x-item>/bin/FiftyOne.Foundation.dll</x-item>
         <x-item>/bin/Microsoft.Web.Infrastructure.dll</x-item>
+        <x-item>/App_Data/51Degrees.mobi.config</x-item>
       </Entries>
       <Converter>
         <FileToEntryConverter>
