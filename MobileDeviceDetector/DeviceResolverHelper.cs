@@ -142,6 +142,11 @@ namespace Sitecore.SharedSource.MobileDeviceDetector
     public static bool GetBoolProperty(string propertyName)
     {
       var provider = Factory.ActiveProvider;
+      if (string.IsNullOrEmpty(HttpContext.Current.Request.UserAgent))
+      {
+          return false;
+      }
+
       var device = provider.GetDeviceInfo(HttpContext.Current.Request.UserAgent);
       return MainUtil.GetBool(device.GetFirstPropertyValue(propertyName), false);
     }
@@ -149,6 +154,11 @@ namespace Sitecore.SharedSource.MobileDeviceDetector
     public static string GetStringProperty(string propertyName)
     {
       var provider = Factory.ActiveProvider;
+      if (string.IsNullOrEmpty(HttpContext.Current.Request.UserAgent))
+      {
+          return string.Empty;
+      }
+
       var device = provider.GetDeviceInfo(HttpContext.Current.Request.UserAgent);
       return device.GetFirstPropertyValue(propertyName);
     }
