@@ -35,7 +35,7 @@
 
       if (!string.IsNullOrEmpty(propertyValue))
       {
-        return Compare(str, propertyValue);
+        return Compare(propertyValue, str);
       }
 
       return false;

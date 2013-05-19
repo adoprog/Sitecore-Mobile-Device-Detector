@@ -29,7 +29,7 @@
       var userAgent = HttpContext.Current.Request.UserAgent;
       if (!string.IsNullOrEmpty(userAgent))
       {
-        return Compare(str, userAgent);
+        return Compare(userAgent, str);
       }
 
       return false;
