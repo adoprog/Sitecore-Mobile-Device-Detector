@@ -41,23 +41,17 @@ namespace Sitecore.SharedSource.MobileDeviceDetector
 
       using (new SecurityDisabler())
       {
-        DeviceItem resolvedDevice = GetCookieDevice(database);
+        var resolvedDevice = GetQueryStringDevice(database);
         if (resolvedDevice != null)
-        {
-          return resolvedDevice;
-        }
-
-        resolvedDevice = GetQueryStringDevice(database);
+              return resolvedDevice;
+        
+        resolvedDevice = GetCookieDevice(database);
         if (resolvedDevice != null)
-        {
           return resolvedDevice;
-        }
 
         resolvedDevice = GetRulesDevice(database);
         if (resolvedDevice != null)
-        {
           return resolvedDevice;
-        }
 
         return null;
       }
