@@ -1,11 +1,4 @@
-# Framework Initialization
 $scriptRoot = Split-Path (Resolve-Path $myInvocation.MyCommand.Path)
-$env:PSModulePath = $env:PSModulePath + ";$scriptRoot\Tools\PowerCore\Framework"
-
-$scriptRoot = Split-Path (Resolve-Path $myInvocation.MyCommand.Path)
-
-if (-not (test-path "$env:ProgramFiles\7-Zip\7z.exe")) {throw "$env:ProgramFiles\7-Zip\7z.exe needed"} 
-set-alias sz "$env:ProgramFiles\7-Zip\7z.exe" 
 
 properties {
     $projectName = "MobileDeviceDetector.Build"
@@ -17,13 +10,7 @@ properties {
 task Package -depends Init, Create-Package, Clean {
 }
 
-function Remove-Resources {
-
-}
-
 task Init {
-    Remove-Resources
-
     if (Test-Path "$buildFolder\Output") {
         Remove-Item -Recurse -Force "$buildFolder\Output"         
     }
@@ -55,5 +42,4 @@ task Compile {
 }
 
 task Clean { 
-    Remove-Resources
 }
