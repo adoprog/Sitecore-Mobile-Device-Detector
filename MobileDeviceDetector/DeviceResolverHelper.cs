@@ -1,6 +1,6 @@
 ﻿using System;
 using Sitecore.Configuration;
-using Factory = FiftyOne.Foundation.Mobile.Detection.Factory;
+using System.Linq;
 
 namespace Sitecore.SharedSource.MobileDeviceDetector
 {
@@ -11,6 +11,7 @@ namespace Sitecore.SharedSource.MobileDeviceDetector
   using Sitecore.Rules;
   using Sitecore.SecurityModel;
   using Sitecore.Web;
+    using FiftyOne.Foundation.Mobile.Detection;
 
   /// <summary>
   /// DeviceResolver helper class
@@ -135,26 +136,39 @@ namespace Sitecore.SharedSource.MobileDeviceDetector
 
     public static bool GetBoolProperty(string propertyName)
     {
-      var provider = Factory.ActiveProvider;
-      if (string.IsNullOrEmpty(HttpContext.Current.Request.UserAgent))
-      {
-          return false;
-      }
+        if (string.IsNullOrEmpty(HttpContext.Current.Request.UserAgent))
+        {
+            return false;
+        }
 
-      var device = provider.GetDeviceInfo(HttpContext.Current.Request.UserAgent);
-      return MainUtil.GetBool(device.GetFirstPropertyValue(propertyName), false);
+        //var provider = WebProvider.ActiveProvider;
+        Match match = WebProvider.ActiveProvider.Match(HttpContext.Current.Request.UserAgent);
+
+        var results = match.Results.SingleOrDefault(x => x.Key == propertyName).Value;
+
+        if (results.Length > 0)
+            return MainUtil.GetBool(results[0], false);
+        else
+            return false;
     }
 
     public static string GetStringProperty(string propertyName)
     {
-      var provider = Factory.ActiveProvider;
-      if (string.IsNullOrEmpty(HttpContext.Current.Request.UserAgent))
-      {
-          return string.Empty;
-      }
+        if (string.IsNullOrEmpty(HttpContext.Current.Request.UserAgent))
+        {
+            return string.Empty;
+        }
 
-      var device = provider.GetDeviceInfo(HttpContext.Current.Request.UserAgent);
-      return device.GetFirstPropertyValue(propertyName);
+        //var provider = WebProvider.ActiveProvider;
+        Match match = WebProvider.ActiveProvider.Match(HttpContext.Current.Request.UserAgent);
+
+        var results = match.Results.SingleOrDefault(x => x.Key == propertyName).Value;
+
+        if (results.Length > 0)
+            return results[0];
+        else
+            return "";
+
     }
   }
 }
