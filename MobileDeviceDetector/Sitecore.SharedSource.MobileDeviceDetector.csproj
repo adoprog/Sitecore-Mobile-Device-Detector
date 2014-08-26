@@ -98,7 +98,6 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="51Degrees.config" />
     <None Include="51Degrees.mobi.config" />
     <None Include="App_Config\Include\Sitecore.SharedSource.MobileDeviceDetector.config" />
     <None Include="packages.config" />
